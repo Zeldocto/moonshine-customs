@@ -8,7 +8,7 @@ import react from '@vitejs/plugin-react'
 const base = process.env.BASE_PATH ?? '/moonshine-customs/'
 
 export default defineConfig({
-  base,
+  base: '/moonshine-customs/',
   plugins: [react()],
   build: {
     outDir: 'dist',
