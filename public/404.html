@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Moonshine Skins</title>
+    <script>
+      // Preserve the requested deep link, then hand control back to index.html.
+      // BASE_SEGMENTS = number of path segments that belong to the GitHub Pages
+      // repository prefix. '/moonshine-customs/' -> 1. Use 0 for a custom domain.
+      var BASE_SEGMENTS = 1
+      var l = window.location
+      var segments = l.pathname.split('/').filter(Boolean)
+      var base = '/' + segments.slice(0, BASE_SEGMENTS).join('/') + '/'
+      sessionStorage.setItem('spa:redirect', l.pathname + l.search + l.hash)
+      l.replace(base)
+    </script>
+  </head>
+  <body></body>
+</html>

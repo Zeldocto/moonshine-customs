@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moonshine Skins</title>
+    <meta
+      name="description"
+      content="Community colour skins for Moonshine, the Super Mario Sunshine practice mod. Browse, preview on Mario and FLUDD, and download."
+    />
+    <!--
+      GitHub Pages cannot set response headers, so a Content-Security-Policy
+      has to go in a meta tag. Uncomment once you have your Supabase project
+      URL, and test the 3D preview and uploads afterwards — CSP is easy to get
+      slightly wrong and it fails silently in the console.
+
+      <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        connect-src 'self' https://YOURPROJECT.supabase.co;
+        img-src 'self' data: blob: https://YOURPROJECT.supabase.co;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src https://fonts.gstatic.com;
+        script-src 'self';
+        worker-src 'self' blob:;
+        base-uri 'none';
+        object-src 'none';
+        form-action 'none';
+      " />
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rubik:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // GitHub Pages has no server-side rewrite, so a hard refresh on
+      // /moonshine-customs/skin/abc 404s. public/404.html stashes the path in
+      // sessionStorage and bounces here; we restore it before React boots.
+      (function () {
+        var redirect = sessionStorage.getItem('spa:redirect')
+        if (redirect) {
+          sessionStorage.removeItem('spa:redirect')
+          history.replaceState(null, '', redirect)
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
