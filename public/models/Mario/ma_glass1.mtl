@@ -1,0 +1,10 @@
+newmtl vertexColors
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd vertexColors_glass.png
+
+newmtl _mat_sunglass_A_flame
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_mario_sunglass_flame_ia4.png
+map_d H_mario_sunglass_flame_ia4.png

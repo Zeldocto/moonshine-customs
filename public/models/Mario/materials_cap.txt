@@ -1,0 +1,29 @@
+_mat_cap
+========
+  Textures:
+    - H_ma_new_main_s3tc
+    - H_ma_polmask_cap_i4
+    - H_ma_rak_dummy
+    - H_toon_2_4i
+
+  Ambient Colors:
+    - 128, 128, 128, 50
+
+  Constant Colors:
+    - 76, 108, 97, 210
+
+  Color Registers:
+    - 150, 150, 180, 161
+    - 157, 161, 169, 255
+
+  Steps:
+    1: RGB = if RG of (tex #2 A) > (210, 210, 210), use (255, 255, 255), otherwise (0, 0, 0)
+         A = 0
+    2: RGB = (tex #1 RGB)
+         A = 0
+    3: RGB = (0, 0, 0), then add (prev. RGB)
+         A = 0
+    4: RGB = (lerp from (tex #4 RGB) to (vertex RGB) using (159, 159, 159)), then add (150, 150, 180), subtract 127
+         A = 0
+    5: RGB = (lerp from (157, 161, 169) to (vertex RGB) using (128, 128, 128)), then add (prev. RGB), subtract 127
+         A = 0, then add (vertex A)

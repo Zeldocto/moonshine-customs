@@ -1,0 +1,164 @@
+newmtl _mat_head(2)_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head(2)_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head(2)
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
+
+newmtl _mat_head_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
+
+newmtl _mat_head(4)_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head(4)_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head(4)
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
+
+newmtl _mat_head(3)_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head(3)_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head(3)
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
+
+newmtl _mat_head(5)_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head(5)_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head(5)
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
+
+newmtl _mat_head(6)_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head(6)_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head(6)
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
+
+newmtl _mat_head(7)_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head(7)_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head(7)
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
+
+newmtl _mat_eye_R_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_eye_R_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_eye_R
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_eye1_s3tc.png
+
+newmtl _mat_mouse_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_mouse_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_mouse
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_mouse1_s3tc.png
+
+newmtl _mat_eye_L_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_eye_L_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_eye_L
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_eye1_s3tc.png
+
+newmtl _mat_head(8)_uv3
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_rak_dummy.png
+
+newmtl _mat_head(8)_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_polmask1_i4.png
+
+newmtl _mat_head(8)
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png

@@ -1,0 +1,35 @@
+_mat_sunglass_A_flame
+=====================
+  Textures:
+    - H_mario_sunglass_flame_ia4
+
+  Ambient Colors:
+    - 128, 128, 128, 50
+
+  Color Registers:
+    - 84, 80, 230, 255
+    - 238, 255, 255, 255
+
+  Steps:
+    1: RGB = (lerp from (84, 80, 230) to (238, 255, 255) using (tex #1 RGB)), then add (vertex RGB)
+         A = ((tex #1 A) * (vertex A))
+    2: RGB = ((prev. RGB) * (vertex RGB))
+         A = 0, then add (prev. A)
+
+
+
+_mat_sunglass_A_lens
+====================
+  Textures:
+
+  Ambient Colors:
+    - 128, 128, 128, 50
+
+  Constant Colors:
+    - 137, 138, 144, 255
+
+  Steps:
+    1: RGB = -1 * ((vertex RGB) * (128, 128, 128)), then add (vertex RGB)
+         A = (vertex A)
+    2: RGB = ((prev. RGB) * (137, 138, 144)), then add (vertex RGB), multiply by 2
+         A = (prev. A), then add (vertex A)

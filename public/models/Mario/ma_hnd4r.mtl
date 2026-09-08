@@ -1,0 +1,9 @@
+newmtl _mat_hand4_r1_uv2
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_toon_2_4i.png
+
+newmtl _mat_hand4_r1
+Kd 0.800000 0.800000 0.800000
+illum 1
+map_Kd H_ma_new_main_s3tc.png
