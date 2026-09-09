@@ -19,6 +19,10 @@ import AuthCallback from './pages/AuthCallback'
 import Community from './pages/Community'
 import About from './pages/About'
 import NotFound from './pages/NotFound'
+import { lazy, Suspense } from 'react'
+
+// Dev-only harness for eyeballing the 3D preview. Tree-shaken out of prod builds.
+const PreviewTest = import.meta.env.DEV ? lazy(() => import('./pages/PreviewTest')) : null
 
 export default function App() {
   return (
@@ -37,6 +41,16 @@ export default function App() {
         <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Home />} />
+            {PreviewTest && (
+              <Route
+                path="/preview-test"
+                element={
+                  <Suspense fallback={null}>
+                    <PreviewTest />
+                  </Suspense>
+                }
+              />
+            )}
             <Route path="/browse" element={<Browse />} />
             <Route path="/skin/:id" element={<SkinDetail />} />
             <Route path="/profile/:username" element={<Profile />} />

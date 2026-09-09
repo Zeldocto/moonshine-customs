@@ -42,3 +42,33 @@ export const MATERIAL_MATCHERS: Record<string, string[]> = {
   //   fludd_hover_nozzle, fludd_rocket_nozzle, fludd_turbo_nozzle,
   //   fludd_water, fludd_water_highlight
 }
+
+/**
+ * Per-slot recolour profile for the shader patch in applySkin.ts.
+ *
+ * The atlas is Sunshine's *original*, untouched. `hue` is the stock hue of the
+ * slot's fabric (0..1); a texel is recoloured only when its hue is within
+ * `hueTol` of that and its saturation is at least `satMin`. That leaves the
+ * shine sprites (yellow), the cap's "M", white trim and every shadow alone.
+ * Output brightness tracks the texel's own luminance, normalised by `refLum`
+ * (the region's typical luminance) and nudged by `lumGain`.
+ *
+ * `mario_gloves` matches any texel (satMin negative, hueTol > 1) because the
+ * glove texture is a flat near-white that should take the colour wholesale.
+ */
+export interface SlotTint {
+  hue: number
+  hueTol: number
+  satMin: number
+  refLum: number
+  lumGain: number
+}
+
+export const SLOT_TINT: Record<string, SlotTint> = {
+  mario_cap:            { hue: 0.00, hueTol: 0.06, satMin: 0.16, refLum: 0.34, lumGain: 1.10 },
+  mario_shirt:          { hue: 0.00, hueTol: 0.06, satMin: 0.16, refLum: 0.34, lumGain: 1.10 },
+  mario_overalls:       { hue: 0.60, hueTol: 0.12, satMin: 0.12, refLum: 0.24, lumGain: 1.15 },
+  mario_sunshine_shirt: { hue: 0.48, hueTol: 0.14, satMin: 0.10, refLum: 0.82, lumGain: 1.00 },
+  mario_shoes:          { hue: 0.07, hueTol: 0.05, satMin: 0.18, refLum: 0.36, lumGain: 1.15 },
+  mario_gloves:         { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.82, lumGain: 1.00 },
+}

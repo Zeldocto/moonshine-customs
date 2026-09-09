@@ -41,7 +41,7 @@ export const SKIN_SLOTS: readonly SkinSlot[] = [
   { id: 'mario_gloves',         iniKey: 'mario_gloves_rgb',         label: 'Gloves',          group: 'mario', enableBit: 3, fallback: [255, 255, 255] },
   { id: 'mario_shoes',          iniKey: 'mario_shoes_rgb',          label: 'Shoes',           group: 'mario', enableBit: 4, fallback: [110, 60, 30] },
   { id: 'mario_sunglasses',     iniKey: 'mario_sunglasses_rgb',     label: 'Sunglasses',      group: 'mario', enableBit: 5, fallback: [25, 25, 30], hint: 'Only visible with shades on' },
-  { id: 'mario_sunshine_shirt', iniKey: 'mario_sunshine_shirt_rgb', label: 'Shine shirt',     group: 'mario', enableBit: 6, fallback: [255, 205, 60], hint: 'The alternate shine outfit' },
+  { id: 'mario_sunshine_shirt', iniKey: 'mario_sunshine_shirt_rgb', label: 'Shine shirt',     group: 'mario', enableBit: 6, fallback: [120, 210, 214], hint: 'Cyan Hawaiian-shirt base; the yellow shine sprites stay yellow' },
 
   { id: 'fludd_paint',          iniKey: 'fludd_paint_rgb',          label: 'Body paint',      group: 'fludd', enableBit: 0, fallback: [235, 235, 235] },
   { id: 'fludd_metal',          iniKey: 'fludd_metal_rgb',          label: 'Metal',           group: 'fludd', enableBit: 1, fallback: [170, 178, 186] },
