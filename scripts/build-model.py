@@ -5,10 +5,20 @@ per-material colours. One ripped material ("_mat_head") covers the blue overall
 bib, the blue legs AND the red shirt sleeves. Tinting by material therefore
 cannot work.
 
-So we classify every triangle by the colour it samples from the atlas, split the
-geometry into one mesh per Moonshine slot, and rewrite the atlas so tinted
-regions carry only luminance (shading survives, hue comes from the slot colour).
-Untinted regions - face, eyes, mouth, the cap's M - keep their original pixels.
+So we classify every triangle by the colour it samples from the atlas and split
+the geometry into one mesh per Moonshine slot.
+
+  ⚠ SUPERSEDED: this script also *rewrites* the atlas so tinted regions carry
+  luminance only, with hue coming from a per-slot baseColor. That destroyed the
+  original pixels, so misclassifications were permanent - the shine shirt lost
+  its cyan base and a greyed region bled white onto Mario's nose.
+
+  The preview no longer relies on that. It keeps the ORIGINAL atlas untouched
+  and recolours at runtime in a hue-shift shader (src/components/preview/
+  applySkin.ts + SLOT_TINT in modelConfig.ts). After regenerating the .glb
+  here, run `npm run model:restore-atlas` to swap the original atlas back in
+  and reset the baked baseColors to white. The geometry split below is still
+  what we want; the atlas rewrite is dead weight kept only for reference.
 """
 import colorsys, json, os
 import numpy as np
