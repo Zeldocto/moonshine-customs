@@ -23,12 +23,26 @@ export function applySkinToModel(skin: SkinData, root: THREE.Object3D): void {
     if (!slot) return
 
     const enabled = isSlotEnabled(slot, skin.enabled[slot.group] ?? 0)
-    const [r, g, b] = enabled ? (skin.slots[slot.id] ?? slot.fallback) : slot.fallback
+    const override = enabled ? (skin.slots[slot.id] ?? null) : null
 
     for (const material of materialsOf(mesh)) {
       const target = material as THREE.MeshStandardMaterial
       if (!target.color) continue
-      target.color.setRGB(r / 255, g / 255, b / 255, THREE.SRGBColorSpace)
+
+      // The imported model bakes each slot's stock colour into its
+      // baseColorFactor, because the atlas it samples carries luminance only.
+      // Remember it once so a disabled slot can fall back to the game's own
+      // colours instead of rendering as flat white.
+      if (!target.userData.stockColor) {
+        target.userData.stockColor = target.color.clone()
+      }
+
+      if (override) {
+        const [r, g, b] = override
+        target.color.setRGB(r / 255, g / 255, b / 255, THREE.SRGBColorSpace)
+      } else {
+        target.color.copy(target.userData.stockColor as THREE.Color)
+      }
       target.needsUpdate = true
     }
   })
