@@ -28,8 +28,7 @@ RULES = {
     '_mat_head_7_': {'*': 'mario_cap'},
     # The shine shirt is a cyan base with yellow shine sprites printed on it.
     # Moonshine tints the base; the shines stay yellow, so they stay untinted.
-    '_mat_head_2_': {'yellow': None, 'orange/brown': None,
-                     '*': 'mario_sunshine_shirt'},
+    '_mat_head_2_': {'*': 'mario_sunshine_shirt'},
     # brown here is Mario's bare forearms, not footwear - leave it untinted.
     '_mat_head':    {'blue': 'mario_overalls', 'red': 'mario_shirt',
                      'orange/brown': None, 'white/grey': None,
@@ -101,7 +100,8 @@ def build():
         y = int(np.clip(1.0 - (uv_pt[1] % 1.0), 0, 0.999) * H)
         return atlas[y, x]
 
-    parts, tri_slots = {}, []
+    parts, tri_slots, untinted_tris = {}, [], []
+    sid_masks = {}
 
     def part(name, slot, tex):
         if name not in parts:
@@ -119,8 +119,14 @@ def build():
         slot = rule.get(bucket(sample(cen)) if cen is not None else '*', rule.get('*'))
         name = slot if slot else UNTINTED_MESH.get(mat, 'mario_skin')
         part(name, slot, mtl.get(mat)).add((a, b, c), verts, uvs, xf)
-        if slot and cen is not None and len(tis) == 3:
-            tri_slots.append((tis, slot))
+        if cen is not None and len(tis) == 3:
+            if slot:
+                tri_slots.append((tis, slot))
+            # Only the head uses the main atlas. Eyes and mouth have their own
+            # textures, so their UVs address a different image entirely and must
+            # not be rasterised into this mask.
+            elif mat == '_mat_head_8_':
+                untinted_tris.append(tis)
 
     # ---- luminance atlas ---------------------------------------------------
     label = np.zeros((H, W), dtype=np.int32)
@@ -128,7 +134,14 @@ def build():
     sid = {s: i + 1 for i, s in enumerate(slot_ids)}
 
     def raster(tri_uv, value):
-        pts = np.array([[uv[0] % 1.0 * W, (1.0 - uv[1] % 1.0) * H] for uv in tri_uv])
+        # Do NOT wrap per vertex: a triangle straddling the 0/1 seam would be
+        # stretched across the entire atlas and swallow every other region.
+        # Shift the whole triangle into tile 0 as a unit. Wrapping each vertex
+        # on its own would stretch a seam-straddling triangle across the atlas;
+        # not wrapping at all would drop triangles authored in another tile.
+        arr = np.array(tri_uv, dtype=float)
+        arr = arr - np.floor(arr.mean(0))
+        pts = np.array([[u * W, (1.0 - v) * H] for u, v in arr])
         x0, x1 = int(pts[:, 0].min()), int(np.ceil(pts[:, 0].max()))
         y0, y1 = int(pts[:, 1].min()), int(np.ceil(pts[:, 1].max()))
         x0, y0 = max(x0 - 1, 0), max(y0 - 1, 0)
@@ -150,23 +163,43 @@ def build():
     for tis, slot in tri_slots:
         raster([uvs[t] for t in tis], sid[slot])
 
+    # Untinted geometry (face, eyes, mouth, forearms) shares atlas space with
+    # tinted geometry. Greying those texels turned Mario's nose white, so mark
+    # them and never touch them.
+    protect = np.zeros((H, W), dtype=bool)
+    saved = label.copy()
+    label[:] = 0
+    for tis in untinted_tris:
+        raster([uvs[t] for t in tis], 1)
+    protect = label == 1
+    label = saved
+
     out = atlas.copy()
     lum = atlas @ np.array([0.299, 0.587, 0.114])
+    # Per-texel bucket, so printed detail inside a region (the shine sprites on
+    # the shirt, the M on the cap) keeps its own colour instead of being greyed
+    # along with the fabric around it.
+    flat = atlas.reshape(-1, 3)
+    tex_bucket = np.array([bucket(c) for c in flat]).reshape(H, W)
+
     for s, i in sid.items():
-        mask = label == i
+        region = (label == i) & ~protect
+        if not region.any():
+            continue
+        vals, counts = np.unique(tex_bucket[region], return_counts=True)
+        dominant = vals[counts.argmax()]
+        mask = region & (tex_bucket == dominant)
         if not mask.any():
             continue
         mean = max(float(lum[mask].mean()), 1.0)
-        # Normalise so the region averages white; tint x this = right hue,
-        # original shading preserved.
         g = np.clip(lum[mask] / mean, 0.0, 1.6) * 200.0
         out[mask] = np.stack([g, g, g], axis=-1)
+        sid_masks[s] = mask
     Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).save('/home/claude/mario_atlas_tint.png')
     print('atlas regions:', {s: int((label == i).sum()) for s, i in sid.items()})
 
     defaults = {}
-    for s_, i in sid.items():
-        mask = label == i
+    for s_, mask in sid_masks.items():
         if mask.any():
             mean_rgb = atlas[mask].reshape(-1, 3).mean(0)
             # exported texel is lum/mean_lum * 200, so this factor reproduces
