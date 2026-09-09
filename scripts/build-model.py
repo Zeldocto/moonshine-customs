@@ -71,6 +71,7 @@ def bucket(rgb):
 class Part:
     def __init__(self, name, slot, texture):
         self.name, self.slot, self.texture = name, slot, texture
+        self.default_color = None
         self.pos, self.uv, self.idx, self._m = [], [], [], {}
 
     def add(self, corners, verts, uvs, xf):
@@ -163,9 +164,19 @@ def build():
     Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).save('/home/claude/mario_atlas_tint.png')
     print('atlas regions:', {s: int((label == i).sum()) for s, i in sid.items()})
 
+    defaults = {}
+    for s_, i in sid.items():
+        mask = label == i
+        if mask.any():
+            mean_rgb = atlas[mask].reshape(-1, 3).mean(0)
+            # exported texel is lum/mean_lum * 200, so this factor reproduces
+            # the stock look when no skin colour overrides the slot.
+            defaults[s_] = [float(min(c / 200.0, 1.0)) for c in mean_rgb]
+
     for p in parts.values():
         if p.texture == ATLAS:
             p.texture = 'mario_atlas_tint.png'
+        p.default_color = defaults.get(p.slot)
 
     # ---- FLUDD -------------------------------------------------------------
     # watergun_item.dae is the assembled pack; body.dae is skinned and needs
@@ -187,14 +198,16 @@ def build():
     gm = parse_mtl(M + 'ma_glass1.mtl')
     gv, guv, gf = load_obj_full(M + 'ma_glass1.obj')
     import math
-    ang = math.radians(0)
+    ang = math.radians(270)
     R = np.array([[math.cos(ang), 0, math.sin(ang)], [0, 1, 0],
                   [-math.sin(ang), 0, math.cos(ang)]])
     gv = gv @ R.T
     gused = sorted({vi for a, b, c, m in gf if m and not m.endswith(('_uv2', '_uv3'))
                     for (vi, _t) in (a, b, c)})
     gc = gv[gused].mean(0)
-    goff = np.array([-4.9, 130.0, 2.0])
+    gused2 = sorted({vi for a, b, c, m in gf if m and not m.endswith(('_uv2', '_uv3'))
+                     for (vi, _t) in (a, b, c)})
+    goff = np.array([0.0, 114.0, 14.0]) - gv[gused2].mean(0)
     gxf = lambda p: (np.array(p) + goff) * SCALE
     for a, b, c, mat in gf:
         if not mat or mat.endswith(('_uv2', '_uv3')):
@@ -205,6 +218,7 @@ def build():
     for p in parts.values():
         pos = np.array(p.pos)
         res.append({'name': p.name, 'slot': p.slot, 'texture': p.texture,
+                    'defaultColor': getattr(p, 'default_color', None),
                     'positions': pos.flatten().tolist(),
                     'uvs': np.array(p.uv).flatten().tolist(),
                     'indices': p.idx,
