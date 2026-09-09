@@ -1,51 +1,50 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────
- *  WHERE TO PLUG IN THE REAL MARIO + FLUDD MODEL
+ *  REAL MARIO + FLUDD MODEL — wired up
  * ─────────────────────────────────────────────────────────────────────────
  *
- *  1. Export the rip from The Models Resource as .glb (Blender: File ▸
- *     Export ▸ glTF 2.0 Binary). Keep it under ~4 MB — decimate and downscale
- *     textures if needed, it is a preview, not the game.
+ *  public/models/mario_fludd.glb is built from the .obj/.dae rips already in
+ *  public/models/ by scripts/build-model.py. 137 KB, 2,696 triangles, four
+ *  embedded textures (face atlas, eyes, mouth, sunglasses).
  *
- *  2. Drop it at   public/models/mario-fludd.glb
+ *  Every mesh is named after the colour slot it carries, so the matchers below
+ *  are exact name matches rather than guesses. Face, eyes and mouth are
+ *  deliberately unmatched — they keep their texture and are never tinted.
  *
- *  3. Set MARIO_MODEL_URL below to the commented-out value.
+ *  Model space: feet at y=0, 2.14 units tall, facing +Z.
  *
- *  4. Fill in MATERIAL_MATCHERS so each skin slot knows which meshes or
- *     materials it tints. Open the .glb in https://gltf-viewer.donmccurdy.com
- *     to read the real names.
- *
- *  Nothing else in the app needs to change: applySkinToModel() walks whatever
- *  object tree it is given and uses this table.
- *
- *  ⚠ Licensing: model rips of Nintendo assets are not ours to redistribute.
- *  Check what you are allowed to host before committing a .glb to a public
- *  repository. The placeholder model below is original geometry and is safe.
+ *  ⚠ Licensing unchanged: these are ripped Nintendo assets. Hosting them on a
+ *  public repo is your call, not the code's.
  */
 
-export const MARIO_MODEL_URL: string | null = null
-// export const MARIO_MODEL_URL: string | null = `${import.meta.env.BASE_URL}models/mario-fludd.glb`
+export const MARIO_MODEL_URL: string | null = `${import.meta.env.BASE_URL}models/mario_fludd.glb`
 
 /**
  * slot id -> patterns matched (case-insensitively) against each mesh's name
  * and its material's name. First matching slot wins.
  */
 export const MATERIAL_MATCHERS: Record<string, string[]> = {
-  mario_cap: ['cap', 'hat'],
-  mario_shirt: ['shirt', 'body_red', 'torso'],
-  mario_overalls: ['overall', 'dungaree', 'pants'],
-  mario_gloves: ['glove', 'hand'],
-  mario_shoes: ['shoe', 'boot'],
-  mario_sunglasses: ['sunglass', 'shades', 'lens'],
-  mario_sunshine_shirt: ['shineshirt', 'shine_shirt', 'altshirt'],
-  fludd_paint: ['fludd_body', 'fludd_paint', 'pack'],
-  fludd_metal: ['fludd_metal', 'metal', 'chrome'],
-  fludd_straps: ['strap', 'belt', 'harness'],
-  fludd_model_tank: ['tank', 'bottle'],
-  fludd_spray_nozzle: ['spray', 'squirt'],
-  fludd_hover_nozzle: ['hover'],
-  fludd_rocket_nozzle: ['rocket'],
-  fludd_turbo_nozzle: ['turbo'],
-  fludd_water: ['water'],
-  fludd_water_highlight: ['water_hi', 'waterhighlight', 'foam'],
+  mario_cap: ['mario_cap'],
+  mario_shirt: ['mario_shirt'],
+  mario_overalls: ['mario_overalls'],
+  mario_gloves: ['mario_gloves'],
+  mario_shoes: ['mario_shoes'],
+  mario_sunglasses: ['mario_sunglasses'],
+  fludd_paint: ['fludd_paint'],
+  fludd_spray_nozzle: ['fludd_spray_nozzle'],
+
+  // ---------------------------------------------------------------------
+  // No geometry yet. Left in place so the RGB dropdown and parser keep
+  // showing all 17 slots; they simply tint nothing until the meshes exist.
+  //
+  //   mario_sunshine_shirt — the shirt is one material; needs confirmation of
+  //     whether Moonshine swaps the texture or only tints. If it only tints,
+  //     point this at ['mario_shirt'] and let the shine toggle pick which of
+  //     the two slots drives that mesh.
+  //
+  //   fludd_metal / straps / model_tank / hover_nozzle / rocket_nozzle /
+  //   turbo_nozzle / water / water_highlight — every FLUDD .dae exports a
+  //     single "Material1", so these regions can only be separated by UV mask
+  //     against H_watergun_main_s3tc.png and vertexColors_body.png.
+  // ---------------------------------------------------------------------
 }
