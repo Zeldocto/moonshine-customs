@@ -26,7 +26,10 @@ SCALE = 1.0 / 70.0
 # Colour bucket -> slot, per ripped material group. None means "never tint".
 RULES = {
     '_mat_head_7_': {'*': 'mario_cap'},
-    '_mat_head_2_': {'*': 'mario_sunshine_shirt'},
+    # The shine shirt is a cyan base with yellow shine sprites printed on it.
+    # Moonshine tints the base; the shines stay yellow, so they stay untinted.
+    '_mat_head_2_': {'yellow': None, 'orange/brown': None,
+                     '*': 'mario_sunshine_shirt'},
     # brown here is Mario's bare forearms, not footwear - leave it untinted.
     '_mat_head':    {'blue': 'mario_overalls', 'red': 'mario_shirt',
                      'orange/brown': None, 'white/grey': None,
@@ -40,7 +43,8 @@ RULES = {
     '_mat_eye_L':   {'*': None},
     '_mat_eye_R':   {'*': None},
 }
-UNTINTED_MESH = {'_mat_head_8_': 'mario_face', '_mat_head': 'mario_skin', '_mat_mouse': 'mario_mouth',
+UNTINTED_MESH = {'_mat_head_8_': 'mario_face', '_mat_head': 'mario_skin',
+                 '_mat_head_2_': 'mario_shine_logo', '_mat_mouse': 'mario_mouth',
                  '_mat_eye_L': 'mario_eye_l', '_mat_eye_R': 'mario_eye_r'}
 
 
@@ -168,13 +172,13 @@ def build():
     # joint transforms we do not read.
     import math as _m
     fv, ff = load_dae(F + 'watergun_item.dae')
-    _a = _m.radians(-90)
+    _a = _m.radians(180)
     fv = fv @ np.array([[_m.cos(_a), 0, _m.sin(_a)], [0, 1, 0],
                         [-_m.sin(_a), 0, _m.cos(_a)]]).T
     used = sorted({i for a, b, c, _ in ff for i in (a, b, c)})
     centre = fv[used].mean(0)
-    off = np.array([0, 48, -38]) - centre
-    fxf = lambda p: (np.array(p) + off) * SCALE
+    off = np.array([0, 68, -30]) - centre
+    fxf = lambda p: (centre + (np.array(p) + off - centre) * 0.85) * SCALE
     fp = part('fludd_paint', 'fludd_paint', None)
     for a, b, c, _m in ff:
         fp.add(((a, None), (b, None), (c, None)), fv, None, fxf)
