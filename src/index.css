@@ -215,16 +215,35 @@
   }
 
   /* Footer disclaimer, scrolling as a single endless line. The track holds two
-     identical copies of the text, so translating it exactly -50% loops seamlessly. */
+     identical copies of the text, so translating it exactly -50% loops seamlessly.
+     The bar itself rises into place once on mount, then the text starts moving. */
   .ticker {
     @apply overflow-hidden bg-black/50;
+    animation: ticker-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   .ticker-track {
     @apply flex w-max whitespace-nowrap;
-    animation: ticker-scroll 45s linear infinite;
+    animation: ticker-scroll 45s linear infinite both;
+    animation-delay: 900ms;
   }
   .ticker:hover .ticker-track {
     animation-play-state: paused;
+  }
+  /* Each copy spans at least the viewport, so one copy is never narrower than the
+     bar - that mismatch is what made the text jump on wide screens. */
+  .ticker-item {
+    @apply min-w-[100vw] px-8;
+  }
+}
+
+@keyframes ticker-rise {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -239,9 +258,15 @@
 
 /* No motion: drop the duplicate copy and let the line wrap in place. */
 @media (prefers-reduced-motion: reduce) {
+  .ticker {
+    animation: none;
+  }
   .ticker-track {
     @apply w-full whitespace-normal;
     animation: none;
+  }
+  .ticker-item {
+    @apply min-w-0;
   }
   .ticker-track > [aria-hidden='true'] {
     display: none;
