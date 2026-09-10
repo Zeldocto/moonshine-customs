@@ -33,14 +33,24 @@ export const MATERIAL_MATCHERS: Record<string, string[]> = {
   mario_shoes: ['mario_shoes'],
   mario_sunglasses: ['mario_sunglasses'],
   mario_sunshine_shirt: ['mario_sunshine_shirt'],
-  fludd_paint: ['fludd_paint'],
 
-  // Not yet separable. Every FLUDD .dae exports one material and the loader
-  // does not read its UVs, so the same atlas-classification trick that split
-  // Mario cannot run on FLUDD yet. These nine tint nothing for now:
-  //   fludd_metal, fludd_straps, fludd_model_tank, fludd_spray_nozzle,
-  //   fludd_hover_nozzle, fludd_rocket_nozzle, fludd_turbo_nozzle,
-  //   fludd_water, fludd_water_highlight
+  // FLUDD: watergun_item.dae keeps its UVs after all — build_fludd_parts.py
+  // classifies every triangle by the texel it samples from the item atlas and
+  // scripts/build-fludd.mjs splits the pack into these meshes. Mesh names equal
+  // slot ids, so the matchers are exact.
+  fludd_paint: ['fludd_paint'],           // the yellow shell
+  fludd_metal: ['fludd_metal'],           // every chrome part, one mesh
+  fludd_straps: ['fludd_straps'],         // brown harness + brown pack box
+  fludd_model_tank: ['fludd_model_tank'], // the translucent water sphere (mesh1)
+
+  // Still tint nothing — no separable geometry for them:
+  //   fludd_spray_nozzle / fludd_hover_nozzle  — grey metal, not cleanly
+  //     separable from the rest of `fludd_metal` without fragile spatial cuts.
+  //   fludd_rocket_nozzle / fludd_turbo_nozzle — that geometry is in other
+  //     .dae files entirely and isn't built into the model.
+  //   fludd_water / fludd_water_highlight — the sphere is one mesh; its colour
+  //     is driven by `fludd_model_tank`.
+  // The blue accent ring is the untinted `fludd_trim` mesh (no matcher).
 }
 
 /**
@@ -71,4 +81,14 @@ export const SLOT_TINT: Record<string, SlotTint> = {
   mario_sunshine_shirt: { hue: 0.48, hueTol: 0.14, satMin: 0.10, refLum: 0.82, lumGain: 1.00 },
   mario_shoes:          { hue: 0.07, hueTol: 0.05, satMin: 0.18, refLum: 0.36, lumGain: 1.15 },
   mario_gloves:         { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.82, lumGain: 1.00 },
+
+  // Each FLUDD mesh is already a single colour region (the build script split
+  // it that way), so — like mario_gloves — the profile matches every texel and
+  // recolours the whole mesh by its own luminance. refLum is the region's mean
+  // stock luminance from build_fludd_parts.py.
+  fludd_paint:          { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.83, lumGain: 1.05 },
+  fludd_metal:          { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.57, lumGain: 1.10 },
+  fludd_straps:         { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.27, lumGain: 1.15 },
+  // fludd_model_tank has no atlas map — it falls through to the plain
+  // material.color path in applySkin, so it needs no tint profile here.
 }

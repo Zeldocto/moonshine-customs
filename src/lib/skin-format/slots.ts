@@ -43,10 +43,10 @@ export const SKIN_SLOTS: readonly SkinSlot[] = [
   { id: 'mario_sunglasses',     iniKey: 'mario_sunglasses_rgb',     label: 'Sunglasses',      group: 'mario', enableBit: 5, fallback: [25, 25, 30], hint: 'Only visible with shades on' },
   { id: 'mario_sunshine_shirt', iniKey: 'mario_sunshine_shirt_rgb', label: 'Shine shirt',     group: 'mario', enableBit: 6, fallback: [120, 210, 214], hint: 'Cyan Hawaiian-shirt base; the yellow shine sprites stay yellow' },
 
-  { id: 'fludd_paint',          iniKey: 'fludd_paint_rgb',          label: 'Body paint',      group: 'fludd', enableBit: 0, fallback: [235, 235, 235] },
+  { id: 'fludd_paint',          iniKey: 'fludd_paint_rgb',          label: 'Body paint',      group: 'fludd', enableBit: 0, fallback: [245, 224, 56] },
   { id: 'fludd_metal',          iniKey: 'fludd_metal_rgb',          label: 'Metal',           group: 'fludd', enableBit: 1, fallback: [170, 178, 186] },
-  { id: 'fludd_straps',         iniKey: 'fludd_straps_rgb',         label: 'Straps',          group: 'fludd', enableBit: 2, fallback: [60, 62, 70] },
-  { id: 'fludd_model_tank',     iniKey: 'fludd_model_tank_rgb',     label: 'Water tank',      group: 'fludd', enableBit: 3, fallback: [90, 190, 220] },
+  { id: 'fludd_straps',         iniKey: 'fludd_straps_rgb',         label: 'Straps',          group: 'fludd', enableBit: 2, fallback: [150, 90, 45] },
+  { id: 'fludd_model_tank',     iniKey: 'fludd_model_tank_rgb',     label: 'Water tank',      group: 'fludd', enableBit: 3, fallback: [190, 222, 235] },
   { id: 'fludd_spray_nozzle',   iniKey: 'fludd_spray_nozzle_rgb',   label: 'Spray nozzle',    group: 'fludd', enableBit: 4, fallback: [235, 235, 235] },
   { id: 'fludd_hover_nozzle',   iniKey: 'fludd_hover_nozzle_rgb',   label: 'Hover nozzle',    group: 'fludd', enableBit: 5, fallback: [240, 200, 70] },
   { id: 'fludd_rocket_nozzle',  iniKey: 'fludd_rocket_nozzle_rgb',  label: 'Rocket nozzle',   group: 'fludd', enableBit: 6, fallback: [210, 70, 60] },
