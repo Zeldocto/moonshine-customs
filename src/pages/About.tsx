@@ -9,8 +9,8 @@ export default function About() {
         <section>
           <h2 className="text-2xl">What this is</h2>
           <p className="mt-2 text-inkSoft">
-            Moonshine, the Super Mario Sunshine practice mod, can recolour Mario and FLUDD. Those
-            colours live in your settings file as a handful of RGB values. This site is where the
+            Moonshine, the Super Mario Sunshine practice mod, can recolor Mario and FLUDD. Those
+            colors live in your settings file as a handful of RGB values. This site is where the
             community shares them.
           </p>
         </section>
@@ -24,16 +24,16 @@ export default function About() {
               your <code>susamune.ini</code>, or open the RGB list and type the values into the mod
               menu directly.
             </li>
-            <li>Restart the mod menu and the colours are applied.</li>
+            <li>Restart the mod menu and the colors are applied.</li>
           </ol>
         </section>
 
         <section>
           <h2 className="text-2xl">How to share one</h2>
           <p className="mt-2 text-inkSoft">
-            Set your colours in the mod menu, close it so the settings file is written, then{' '}
+            Set your colors in the mod menu, close it so the settings file is written, then{' '}
             <Link to="/upload">upload that file</Link>. The site reads only the Mario and FLUDD
-            colour keys — your ISO paths, key binds and timer layout are dropped in your browser
+            color keys — your ISO paths, key binds and timer layout are dropped in your browser
             before anything is sent.
           </p>
         </section>

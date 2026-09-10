@@ -1,5 +1,5 @@
 /**
- * Builds the .txt a visitor downloads. It contains the colour keys and
+ * Builds the .txt a visitor downloads. It contains the color keys and
  * nothing else — no ISO paths, no binds, no timer layout from whoever
  * uploaded it.
  */
@@ -16,10 +16,10 @@ export interface SkinFileMeta {
 export function buildSkinFile(data: SkinData, meta: SkinFileMeta): string {
   const lines: string[] = [
     '; Moonshine skin',
-    `; Name    : ${sanitiseComment(meta.name)}`,
-    `; Author  : ${sanitiseComment(meta.author)}`,
-    meta.modVersion ? `; Built for: Moonshine ${sanitiseComment(meta.modVersion)}` : null,
-    meta.sourceUrl ? `; Source  : ${sanitiseComment(meta.sourceUrl)}` : null,
+    `; Name    : ${sanitizeComment(meta.name)}`,
+    `; Author  : ${sanitizeComment(meta.author)}`,
+    meta.modVersion ? `; Built for: Moonshine ${sanitizeComment(meta.modVersion)}` : null,
+    meta.sourceUrl ? `; Source  : ${sanitizeComment(meta.sourceUrl)}` : null,
     ';',
     '; Copy these keys into the [creation_<region>] section of your',
     '; susamune.ini, or enter the RGB values by hand in the mod menu.',
@@ -39,7 +39,7 @@ export function buildSkinFile(data: SkinData, meta: SkinFileMeta): string {
 }
 
 /** Comments are ini-safe as long as they stay on one line. */
-function sanitiseComment(value: string): string {
+function sanitizeComment(value: string): string {
   return value.replace(/[\r\n]+/g, ' ').slice(0, 120)
 }
 
@@ -56,5 +56,5 @@ export function skinFilename(name: string): string {
 
 export function enabledSummary(data: SkinData): string {
   const on = SKIN_SLOTS.filter((s) => isSlotEnabled(s, data.enabled[s.group] ?? 0)).length
-  return `${on} of ${SKIN_SLOTS.length} colours enabled`
+  return `${on} of ${SKIN_SLOTS.length} colors enabled`
 }

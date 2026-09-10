@@ -9,13 +9,13 @@ import { createClient } from '@supabase/supabase-js'
  * The visible symptom is every auth call failing with "That account could not
  * be created". Trimming it here means either value works.
  */
-function normaliseProjectUrl(raw: string | undefined): string | undefined {
+function normalizeProjectUrl(raw: string | undefined): string | undefined {
   if (!raw) return undefined
   const trimmed = raw.trim().replace(/\/+$/, '')
   return trimmed.replace(/\/(rest|auth|storage|realtime)\/v\d+$/i, '')
 }
 
-const url = normaliseProjectUrl(import.meta.env.VITE_SUPABASE_URL)
+const url = normalizeProjectUrl(import.meta.env.VITE_SUPABASE_URL)
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim()
 
 /**

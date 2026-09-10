@@ -1,8 +1,8 @@
 import { useToast } from '../hooks/useToast'
 
 const TONES = {
-  success: 'border-lagoon bg-lagoon/12 text-lagoonDeep',
-  error: 'border-coral bg-coral/12 text-[#9B2F16]',
+  success: 'border-lagoon bg-lagoon/12 text-accent',
+  error: 'border-coral bg-coral/12 text-coralDeep',
   info: 'border-ink/20 bg-shell text-ink',
 } as const
 

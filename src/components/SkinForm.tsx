@@ -7,7 +7,7 @@ import {
   parseMoonshineIni,
 } from '../lib/skin-format/parser'
 import { enabledSummary } from '../lib/skin-format/serializer'
-import { normaliseTags, validateSkinName } from '../lib/validation'
+import { normalizeTags, validateSkinName } from '../lib/validation'
 import { formatBytes } from '../utils/format'
 import type { ParsedSkinCandidate, SkinData, SkinRecord } from '../types/skin'
 import type { SkinInput } from '../lib/skins'
@@ -41,7 +41,7 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
   const [progress, setProgress] = useState<string | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
 
-  const tags = useMemo(() => normaliseTags(tagText), [tagText])
+  const tags = useMemo(() => normalizeTags(tagText), [tagText])
 
   async function handleFile(file: File | undefined) {
     setFileError(null)
@@ -101,7 +101,7 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
       return
     }
     if (!colors) {
-      setFormError('Add a skin file first — the colours come from it.')
+      setFormError('Add a skin file first — the colors come from it.')
       return
     }
     if (description.length > 1000) {
@@ -138,7 +138,7 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
           <h2 className="mb-4 text-xl">Skin file</h2>
 
           <label className="label" htmlFor="skin-file">
-            {initial ? 'Replace the colours (optional)' : 'Your susamune.ini'}
+            {initial ? 'Replace the colors (optional)' : 'Your susamune.ini'}
           </label>
           <input
             ref={fileInput}
@@ -149,12 +149,12 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
             onChange={(event) => void handleFile(event.target.files?.[0])}
           />
           <p className="hint">
-            Only the Mario and FLUDD colour values are read. Your ISO paths, binds and timer
+            Only the Mario and FLUDD color values are read. Your ISO paths, binds and timer
             settings are dropped in the browser and never uploaded. 50 KB limit.
           </p>
 
           {fileError && (
-            <p className="mt-3 rounded-xl border-2 border-coral/50 bg-coral/10 px-3 py-2 text-sm">
+            <p className="notice-error mt-3">
               {fileError}
             </p>
           )}
@@ -169,14 +169,14 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
 
           {candidates.length > 1 && (
             <fieldset className="mt-4">
-              <legend className="label">Which region&apos;s colours?</legend>
+              <legend className="label">Which region&apos;s colors?</legend>
               <div className="flex flex-wrap gap-2">
                 {candidates.map((candidate) => (
                   <label
                     key={candidate.section}
                     className={`cursor-pointer rounded-full border-2 px-3.5 py-1.5 text-sm font-semibold ${
                       chosenSection === candidate.section
-                        ? 'border-lagoonDeep bg-lagoon/15'
+                        ? 'border-accent bg-lagoon/15'
                         : 'border-sandDeep'
                     }`}
                   >
@@ -187,7 +187,7 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
                       checked={chosenSection === candidate.section}
                       onChange={() => pickCandidate(candidate.section)}
                     />
-                    {candidate.regionLabel} · {candidate.customisedCount} custom
+                    {candidate.regionLabel} · {candidate.customizedCount} custom
                   </label>
                 ))}
               </div>
@@ -274,7 +274,7 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
         {formError && (
           <p
             role="alert"
-            className="rounded-xl border-2 border-coral/50 bg-coral/10 px-4 py-3 font-medium"
+            className="notice-error px-4 py-3 text-base font-medium"
           >
             {formError}
           </p>
@@ -294,7 +294,7 @@ export function SkinForm({ initial, submitLabel, onSubmit }: SkinFormProps) {
             <SkinPreview skin={colors} height={320} />
           ) : (
             <div className="flex h-[320px] items-center justify-center px-6 text-center text-inkSoft">
-              Pick a file and your colours appear here before anything is uploaded.
+              Pick a file and your colors appear here before anything is uploaded.
             </div>
           )}
         </div>

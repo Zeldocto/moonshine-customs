@@ -2,7 +2,7 @@
  * Moonshine skin parser.
  *
  * Input: a susamune/Moonshine settings .ini (or a trimmed skin file produced
- * by this site). Output: only the Mario + FLUDD colour data. Everything else
+ * by this site). Output: only the Mario + FLUDD color data. Everything else
  * in the file — ISO paths, binds, timer layout — is discarded here and never
  * reaches the network, so uploading a settings file cannot leak your SD card
  * paths or key binds.
@@ -12,7 +12,7 @@
  * values it does read.
  */
 import {
-  ENABLE_KEYS,
+  ENABLE_KEY_ALIASES,
   SKIN_SLOTS,
   SLOT_BY_INI_KEY,
   allEnabledMask,
@@ -24,7 +24,7 @@ import type { ParseResult, ParsedSkinCandidate, SkinData } from '../../types/ski
 export const CURRENT_FORMAT_VERSION = 1
 export const MAX_SKIN_FILE_BYTES = 50 * 1024
 
-/** Sections that may hold colours: `[creation]`, `[creation_jp]`, `[creation_us]`, … */
+/** Sections that may hold colors: `[creation]`, `[creation_jp]`, `[creation_us]`, … */
 const CREATION_SECTION = /^creation(?:_([a-z0-9]{1,8}))?$/i
 
 const REGION_LABELS: Record<string, string> = { jp: 'JP', us: 'US', pal: 'PAL' }
@@ -112,10 +112,12 @@ function sectionToCandidate(
 
   const enabled = {} as Record<SkinGroup, number>
   for (const group of ['mario', 'fludd'] as SkinGroup[]) {
-    const raw = entries.get(ENABLE_KEYS[group])
+    const raw = ENABLE_KEY_ALIASES[group]
+      .map((key) => entries.get(key))
+      .find((v) => v !== undefined)
     const parsed = raw !== undefined && /^\d{1,10}$/.test(raw.trim()) ? Number(raw.trim()) : NaN
-    // A file with colours but no mask (e.g. a hand-written skin) is treated as
-    // "use every colour it defines" rather than "use none".
+    // A file with colors but no mask (e.g. a hand-written skin) is treated as
+    // "use every color it defines" rather than "use none".
     enabled[group] = Number.isFinite(parsed) ? parsed & allEnabledMask(group) : slotsMask(slots, group)
   }
 
@@ -131,7 +133,7 @@ function sectionToCandidate(
     section: sectionName,
     regionLabel: region ? (REGION_LABELS[region] ?? region.toUpperCase()) : 'Default',
     data,
-    customisedCount: countCustomised(data),
+    customizedCount: countCustomized(data),
   }
 }
 
@@ -143,7 +145,7 @@ function slotsMask(slots: Record<string, RGB>, group: SkinGroup): number {
 }
 
 /** Slots that are both enabled and not plain white — a proxy for "actually styled". */
-export function countCustomised(data: SkinData): number {
+export function countCustomized(data: SkinData): number {
   return SKIN_SLOTS.filter((slot) => {
     const mask = data.enabled[slot.group] ?? 0
     if ((mask & (1 << slot.enableBit)) === 0) return false
@@ -167,12 +169,12 @@ export function parseMoonshineIni(text: string): ParseResult {
 
   if (candidates.length === 0) {
     throw new SkinParseError(
-      'No Mario or FLUDD colours found. Upload the susamune.ini written by Moonshine — the colours live in its [creation] section.',
+      'No Mario or FLUDD colors found. Upload the susamune.ini written by Moonshine — the colors live in its [creation] section.',
     )
   }
 
-  // Most-customised first, so the upload page can preselect the interesting one.
-  candidates.sort((a, b) => b.customisedCount - a.customisedCount)
+  // Most-customized first, so the upload page can preselect the interesting one.
+  candidates.sort((a, b) => b.customizedCount - a.customizedCount)
   return { candidates, warnings }
 }
 
@@ -189,7 +191,7 @@ export function isSkinData(value: unknown): value is SkinData {
   )
 }
 
-/** Last line of defence before render: never trust a jsonb blob. */
+/** Last line of defense before render: never trust a jsonb blob. */
 export function coerceSkinData(value: unknown): SkinData {
   const base: SkinData = {
     version: CURRENT_FORMAT_VERSION,

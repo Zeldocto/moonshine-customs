@@ -32,7 +32,7 @@ export default function MarioViewer({ skin, height = 320, interactive = true }: 
   return (
     <div
       style={{ height }}
-      className="w-full touch-pan-y rounded-chip bg-gradient-to-b from-[#DFF3F5] to-[#F6E7C8]"
+      className="w-full touch-pan-y rounded-chip stage"
     >
       <Canvas
         shadows

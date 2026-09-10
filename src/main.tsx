@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { AuthProvider } from './lib/auth'
 import { ToastProvider } from './hooks/useToast'
+import { ThemeProvider } from './lib/theme'
 import './index.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -11,11 +12,13 @@ createRoot(document.getElementById('root')!).render(
     {/* basename comes from Vite's `base`, so the app works both at
         /moonshine-customs/ on GitHub Pages and at / in dev. */}
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <ToastProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </ToastProvider>
+      <ThemeProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ToastProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,
 )

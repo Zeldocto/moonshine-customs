@@ -78,7 +78,7 @@ export function VoteButtons({ skinId, ownerId, score, size = 'sm' }: VoteButtons
       box,
       active
         ? tone === 'up'
-          ? 'border-lagoonDeep bg-lagoon text-white'
+          ? 'border-accent bg-lagoon text-white'
           : 'border-goop bg-goop text-white'
         : 'border-ink/15 bg-shell text-inkSoft hover:border-ink/40',
       isOwner ? 'cursor-not-allowed opacity-60' : '',

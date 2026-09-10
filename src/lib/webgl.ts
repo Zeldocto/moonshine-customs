@@ -7,7 +7,7 @@
  * surface as the generic "This part of the page stopped working" error card.
  *
  * Checking first lets us show the flat SVG preview instead, which needs no GPU
- * and still shows every colour in the skin.
+ * and still shows every color in the skin.
  */
 let cached: boolean | null = null
 

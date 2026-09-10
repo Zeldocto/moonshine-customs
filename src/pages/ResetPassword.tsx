@@ -72,7 +72,7 @@ export default function ResetPassword() {
           <p className="hint">At least 8 characters, with a number.</p>
         </div>
         {error && (
-          <p role="alert" className="rounded-xl border-2 border-coral/50 bg-coral/10 px-3 py-2 text-sm">
+          <p role="alert" className="notice-error">
             {error}
           </p>
         )}

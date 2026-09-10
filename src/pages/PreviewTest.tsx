@@ -28,8 +28,8 @@ import { coerceSkinData } from '../lib/skin-format/parser'
 import type { SkinData } from '../types/skin'
 
 // What the site actually renders when a skin leaves slots at default: every
-// slot enabled, each at its fallback colour. Use this as the baseline, not a
-// blank skin — a blank skin hides fallback-colour bugs.
+// slot enabled, each at its fallback color. Use this as the baseline, not a
+// blank skin — a blank skin hides fallback-color bugs.
 const DEFAULT_SKIN: SkinData = coerceSkinData(null)
 const EMPTY_SKIN: SkinData = { version: 1, slots: {}, enabled: { mario: 0, fludd: 0 } }
 const BIT = Object.fromEntries(

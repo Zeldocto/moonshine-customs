@@ -73,7 +73,7 @@ export default function Profile() {
         emptyBody={
           isSelf ? (
             <>
-              Your Moonshine colours are one file away. <Link to="/upload">Upload a skin</Link>.
+              Your Moonshine colors are one file away. <Link to="/upload">Upload a skin</Link>.
             </>
           ) : (
             'Check back later.'

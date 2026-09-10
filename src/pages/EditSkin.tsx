@@ -52,7 +52,7 @@ export default function EditSkin() {
       <header className="mb-6">
         <h1 className="text-3xl sm:text-4xl">Edit {skin.name}</h1>
         <p className="text-inkSoft">
-          Votes and downloads stay with the skin. Replacing the file updates the colours everywhere.
+          Votes and downloads stay with the skin. Replacing the file updates the colors everywhere.
         </p>
       </header>
 
@@ -68,7 +68,7 @@ export default function EditSkin() {
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <button
               type="button"
-              className="btn bg-coral text-white shadow-[0_3px_0_0_#A63A20]"
+              className="btn-danger"
               onClick={() => void handleDelete()}
               disabled={deleting}
             >

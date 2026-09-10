@@ -12,7 +12,7 @@ const BLOCKED = [
   'admin', 'moderator', 'moonshine', 'official', 'support', 'system',
 ]
 
-function normalise(value: string): string {
+function normalize(value: string): string {
   const map: Record<string, string> = {
     '0': 'o', '1': 'l', '3': 'e', '4': 'a', '5': 's', '7': 't', '8': 'b',
     '@': 'a', $: 's', '!': 'i',
@@ -25,7 +25,7 @@ export function validateUsername(username: string): string | null {
   if (!value) return 'Pick a username.'
   if (!USERNAME_PATTERN.test(value))
     return 'Usernames are 3–24 characters: letters, numbers, hyphen or underscore.'
-  const flat = normalise(value)
+  const flat = normalize(value)
   if (BLOCKED.some((word) => flat.includes(word))) return 'That username is not allowed. Try another.'
   return null
 }
@@ -49,7 +49,7 @@ export function validateSkinName(name: string): string | null {
   return null
 }
 
-export function normaliseTags(raw: string): string[] {
+export function normalizeTags(raw: string): string[] {
   return Array.from(
     new Set(
       raw

@@ -32,9 +32,7 @@ export function Pagination({ page, pageCount, onChange }: PaginationProps) {
             onClick={() => onChange(p)}
             aria-current={p === page ? 'page' : undefined}
             className={
-              p === page
-                ? 'btn btn-sm bg-ink text-white'
-                : 'btn-ghost btn-sm'
+              p === page ? 'btn-primary btn-sm' : 'btn-ghost btn-sm'
             }
           >
             {p}

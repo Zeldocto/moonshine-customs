@@ -15,7 +15,7 @@ export interface ParsedSkinCandidate {
   regionLabel: string
   data: SkinData
   /** How many slots differ from plain white — used to pick a default. */
-  customisedCount: number
+  customizedCount: number
 }
 
 export interface ParseResult {

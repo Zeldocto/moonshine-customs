@@ -15,7 +15,7 @@ export function SkinCard({ skin }: { skin: SkinRecord }) {
         <SkinPreview
           skin={skin.colors}
           flat
-          className="mx-auto flex h-40 w-full items-center justify-center rounded-chip bg-gradient-to-b from-[#E4F4F5] to-[#F8EDD6] p-2"
+          className="mx-auto flex h-40 w-full items-center justify-center rounded-chip stage-soft p-2"
         />
       </Link>
 

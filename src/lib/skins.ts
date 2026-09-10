@@ -22,7 +22,7 @@ export interface BrowseResult {
   pageCount: number
 }
 
-function normalise(row: Record<string, unknown>): SkinRecord {
+function normalize(row: Record<string, unknown>): SkinRecord {
   return { ...(row as unknown as SkinRecord), colors: coerceSkinData(row.colors) }
 }
 
@@ -48,7 +48,7 @@ export async function browseSkins(params: BrowseParams = {}): Promise<BrowseResu
   const total = rows.length ? Number(rows[0].total_count) : 0
 
   return {
-    skins: rows.map(normalise),
+    skins: rows.map(normalize),
     total,
     page,
     pageCount: Math.max(1, Math.ceil(total / pageSize)),
@@ -63,7 +63,7 @@ export async function getSkin(id: string): Promise<SkinRecord | null> {
     .eq('id', id)
     .maybeSingle()
   if (error) throw error
-  return data ? normalise(data) : null
+  return data ? normalize(data) : null
 }
 
 export async function getSkinsByAuthor(userId: string, limit = 12): Promise<SkinRecord[]> {
@@ -75,7 +75,7 @@ export async function getSkinsByAuthor(userId: string, limit = 12): Promise<Skin
     .order('created_at', { ascending: false })
     .limit(limit)
   if (error) throw error
-  return (data ?? []).map(normalise)
+  return (data ?? []).map(normalize)
 }
 
 export async function getFeaturedSkins(limit = 3): Promise<SkinRecord[]> {
@@ -87,7 +87,7 @@ export async function getFeaturedSkins(limit = 3): Promise<SkinRecord[]> {
     .order('score', { ascending: false })
     .limit(limit)
   if (error) throw error
-  return (data ?? []).map(normalise)
+  return (data ?? []).map(normalize)
 }
 
 export interface SkinInput {
@@ -105,7 +105,7 @@ function fileBlob(colors: SkinData, name: string, author: string, modVersion: st
 }
 
 /**
- * Uploads the trimmed colour file, then writes the row. If the row write
+ * Uploads the trimmed color file, then writes the row. If the row write
  * fails the object is removed again, so a failed upload never leaves an
  * orphaned file in the bucket.
  */

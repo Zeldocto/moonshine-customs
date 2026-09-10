@@ -5,7 +5,7 @@ interface AvatarProps {
   size?: number
 }
 
-/** Falls back to an initial on a colour derived from the name. */
+/** Falls back to an initial on a color derived from the name. */
 export function Avatar({ profile, size = 40 }: AvatarProps) {
   const hue = [...profile.username].reduce((sum, c) => sum + c.charCodeAt(0), 0) % 360
 
@@ -26,7 +26,7 @@ export function Avatar({ profile, size = 40 }: AvatarProps) {
   return (
     <span
       aria-hidden="true"
-      className="inline-flex items-center justify-center rounded-full border-2 border-shell font-display font-bold text-ink"
+      className="inline-flex items-center justify-center rounded-full border-2 border-shell font-display font-bold text-[#14323c]"
       style={{
         width: size,
         height: size,

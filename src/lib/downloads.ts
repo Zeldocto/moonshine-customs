@@ -32,7 +32,7 @@ async function fetchStoredFile(skin: SkinRecord): Promise<string | null> {
 
 /**
  * Downloads the stored file. If the object is somehow unreachable the file is
- * rebuilt from the colours in the database, so the button never dead-ends.
+ * rebuilt from the colors in the database, so the button never dead-ends.
  */
 export async function downloadSkin(skin: SkinRecord): Promise<number | null> {
   const stored = await fetchStoredFile(skin)

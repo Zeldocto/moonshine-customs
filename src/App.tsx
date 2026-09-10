@@ -104,7 +104,7 @@ function Footer() {
           Moonshine Skins — a community project for the Super Mario Sunshine speedrunning scene.
           Not affiliated with Nintendo.
         </p>
-        <p>Skins are colour values only. Nothing here modifies your game files.</p>
+        <p>Skins are color values only. Nothing here modifies your game files.</p>
       </div>
     </footer>
   )

@@ -3,14 +3,14 @@
  *
  * Everything downstream — the parser, the download file, the RGB dropdown,
  * and the 3D preview — reads this table. If Moonshine renames a key, adds a
- * colour, or changes the enable bitmask, edit this file and nothing else.
+ * color, or changes the enable bitmask, edit this file and nothing else.
  *
- * Derived from a real susamune.ini: the colours live under the region
+ * Derived from a real susamune.ini: the colors live under the region
  * sections `[creation_jp]` / `[creation_us]` as `key = R,G,B`.
  *
  * `enableBit` — susamune stores `mario_colors_enabled` / `fludd_colors_enabled`
  * as an integer. The observed sample had mario_colors_enabled = 64 with
- * mario_sunshine_shirt_rgb set to 0,0,0 and every other Mario colour left at
+ * mario_sunshine_shirt_rgb set to 0,0,0 and every other Mario color left at
  * 255,255,255, which is consistent with a bitmask indexed in key order
  * (bit 6 = the 7th Mario key). ⚠ CONFIRM THIS AGAINST THE MOONSHINE SOURCE.
  * If the mapping is different, change `enableBit` values here only.
@@ -28,7 +28,7 @@ export interface SkinSlot {
   group: SkinGroup
   /** Bit position within `<group>_colors_enabled`. */
   enableBit: number
-  /** Colour used when the slot is disabled or missing. */
+  /** Color used when the slot is disabled or missing. */
   fallback: RGB
   /** Short note shown in the RGB dropdown. */
   hint?: string
@@ -66,6 +66,17 @@ export const SLOT_BY_INI_KEY: Record<string, SkinSlot> = Object.fromEntries(
 export const ENABLE_KEYS: Record<SkinGroup, string> = {
   mario: 'mario_colors_enabled',
   fludd: 'fludd_colors_enabled',
+}
+
+/**
+ * Spellings the parser will accept for the enable mask. Moonshine's own
+ * spelling is the one in ENABLE_KEYS above and is what we write back out;
+ * the British variant is read too so a settings file from a build that spells
+ * it the other way still uploads instead of silently losing its mask.
+ */
+export const ENABLE_KEY_ALIASES: Record<SkinGroup, readonly string[]> = {
+  mario: ['mario_colors_enabled', 'mario_colours_enabled'],
+  fludd: ['fludd_colors_enabled', 'fludd_colours_enabled'],
 }
 
 export const GROUP_LABELS: Record<SkinGroup, string> = {

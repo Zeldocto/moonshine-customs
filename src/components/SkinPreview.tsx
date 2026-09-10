@@ -51,7 +51,7 @@ export function SkinPreview({ skin, height = 320, flat = false, className }: Ski
   const placeholder = (
     <div
       style={{ height }}
-      className="flex w-full items-center justify-center rounded-chip bg-gradient-to-b from-[#DFF3F5] to-[#F6E7C8]"
+      className="flex w-full items-center justify-center rounded-chip stage"
     >
       <SkinSilhouette skin={skin} className="h-4/5 w-auto opacity-70" />
     </div>
@@ -64,7 +64,7 @@ export function SkinPreview({ skin, height = 320, flat = false, className }: Ski
       <div className={className}>
         {placeholder}
         <p className="mt-2 text-center text-xs text-ink/60">
-          3D preview needs WebGL, which this browser has turned off. Showing flat colours instead.
+          3D preview needs WebGL, which this browser has turned off. Showing flat colors instead.
         </p>
       </div>
     )

@@ -14,7 +14,7 @@ export default function Home() {
   const fresh = useAsync(() => browseSkins({ sort: 'new', pageSize: 4 }), [])
   const downloaded = useAsync(() => browseSkins({ sort: 'downloads', pageSize: 4 }), [])
 
-  // The hero shows a real skin when there is one, and vanilla colours until then.
+  // The hero shows a real skin when there is one, and vanilla colors until then.
   const heroSkin = useMemo(() => {
     const candidate: SkinRecord | undefined = featured.data?.[0] ?? top.data?.skins[0]
     return candidate ? candidate.colors : coerceSkinData(null)
@@ -27,14 +27,15 @@ export default function Home() {
       <section className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-10 lg:grid-cols-[1.05fr_1fr] lg:py-16">
         <div>
           <h1 className="text-balance leading-[1.05]">
-            Every Mario in the run
-            <br />
-            looks the same. Fix that.
+            Welcome to the Moonshine Skin Database.
           </h1>
           <p className="mt-4 max-w-prose text-lg text-inkSoft">
-            Moonshine lets you recolour Mario and FLUDD. This is where the community keeps those
-            colour sets — upload yours, see it on a model before anyone downloads it, and grab
-            someone else&apos;s in one click.
+            Moonshine is a practice mod and it lets you recolor Mario and FLUDD in-game with RGB
+            values. Upload yours, or download others.
+          </p>
+          <p className="mt-3 max-w-prose text-lg text-inkSoft">
+            Simply download the text file and copy the text to your <code>susamune.ini</code> file
+            off the root of your SD card, replacing lines 501 through 520.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/browse" className="btn-primary">

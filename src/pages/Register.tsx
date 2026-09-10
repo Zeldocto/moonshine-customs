@@ -118,7 +118,7 @@ export default function Register() {
         </div>
 
         {error && (
-          <p role="alert" className="rounded-xl border-2 border-coral/50 bg-coral/10 px-3 py-2 text-sm">
+          <p role="alert" className="notice-error">
             {error}
           </p>
         )}

@@ -26,7 +26,7 @@ export default function Upload() {
       <header className="mb-6">
         <h1 className="text-3xl sm:text-4xl">Upload a skin</h1>
         <p className="max-w-prose text-inkSoft">
-          Drop in the susamune.ini Moonshine writes. The site reads the Mario and FLUDD colours out
+          Drop in the susamune.ini Moonshine writes. The site reads the Mario and FLUDD colors out
           of it, shows you the result, and publishes only those values.
         </p>
       </header>

@@ -25,7 +25,7 @@ export default function Community() {
       <dl className="mb-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
         {figures.map((figure) => (
           <div key={figure.label} className="surface p-5">
-            <dd className="font-display text-3xl font-extrabold text-lagoonDeep">
+            <dd className="font-display text-3xl font-extrabold text-accent">
               {stats.loading ? '—' : formatCount(figure.value ?? 0)}
             </dd>
             <dt className="text-sm text-inkSoft">{figure.label}</dt>

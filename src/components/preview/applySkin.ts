@@ -6,14 +6,14 @@ import { MATERIAL_MATCHERS, SLOT_TINT } from './modelConfig'
 /**
  * The one function that connects skin data to geometry.
  *
- * Everything about "which colour goes where" lives here and in
- * modelConfig.ts. The viewer components never touch colours directly, so
+ * Everything about "which color goes where" lives here and in
+ * modelConfig.ts. The viewer components never touch colors directly, so
  * swapping the placeholder for the real model — or reacting to a change in
  * the Moonshine format — is a change to these two files only.
  *
- * The real model keeps Sunshine's *original* texture atlas untouched. Recolour
+ * The real model keeps Sunshine's *original* texture atlas untouched. Recolor
  * happens in a shader patch (installTint) that shifts hue only on texels that
- * match a slot's stock colour, preserving luminance. A slot with no override
+ * match a slot's stock color, preserving luminance. A slot with no override
  * leaves every texel exactly as the game drew it — so the face, the shine
  * sprites and the cap's "M" can never be broken by a misclassification.
  *
@@ -41,7 +41,7 @@ export function applySkinToModel(skin: SkinData, root: THREE.Object3D): void {
       const tint = SLOT_TINT[slotId]
 
       if (tint && target.map) {
-        // Shader-based recolour on the untouched atlas.
+        // Shader-based recolor on the untouched atlas.
         const uniforms = installTint(target, tint)
         uniforms.uEnabled.value = override ? 1 : 0
         if (override) {
@@ -83,7 +83,7 @@ interface TintUniforms {
 /**
  * Patch a MeshStandardMaterial so that, when uEnabled is on, texels whose hue
  * is within uHueTol of the slot's stock hue are re-tinted to uTint at their
- * own luminance. Everything else — different-hue detail, near-greys, the whole
+ * own luminance. Everything else — different-hue detail, near-grays, the whole
  * texture when uEnabled is off — passes through unchanged.
  */
 function installTint(mat: THREE.MeshStandardMaterial, profile: (typeof SLOT_TINT)[string]): TintUniforms {

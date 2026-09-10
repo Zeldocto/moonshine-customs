@@ -3,8 +3,86 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Palette. Every value is an "R G B" triple so Tailwind's opacity modifiers
+   * still work (see tailwind.config.js). Light is the default; `.dark` on
+   * <html> repoints the same names, so no component needs a `dark:` variant.
+   */
   :root {
     color-scheme: light;
+
+    --sand:        251 242 226;
+    --sand-deep:   243 228 201;
+    --shell:       255 255 255;
+    --ink:          20  50  60;
+    --ink-soft:     78 110 121;
+    --lagoon:       15 163 177;
+    --lagoon-deep:  10 108 119;
+    --accent:       10 108 119;
+    --shine:       255 197  61;
+    --goop:        107  63 160;
+    --coral:       239  95  60;
+    --coral-deep:  155  47  22;
+
+    /* Chrome that is not a palette color: edges, drop shadows, focus ring. */
+    --edge: #e7d8bb;
+    --drop: rgba(20, 50, 60, 0.55);
+    --drop-strong: rgba(20, 50, 60, 0.6);
+    --focus: #0a6c77;
+
+    /* Raised-button "lip" — one step darker than the button face. */
+    --lip-primary: #0a6c77;
+    --lip-shine: #d99e19;
+    --lip-danger: #a63a20;
+
+    /* Plaza wash behind the page. */
+    --wash:
+      radial-gradient(circle at 12% -10%, rgba(15, 163, 177, 0.14), transparent 45%),
+      radial-gradient(circle at 92% 0%, rgba(255, 197, 61, 0.18), transparent 40%);
+
+    /* Inputs sit flush with the card in light, recessed in dark. */
+    --field: 255 255 255;
+
+    /* Backdrop the 3D model and the flat silhouette stand on. */
+    --stage: linear-gradient(to bottom, #dff3f5, #f6e7c8);
+    --stage-soft: linear-gradient(to bottom, #e4f4f5, #f8edd6);
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --sand:          9  12  17;
+    --sand-deep:    31  42  54;
+    --shell:        18  24  33;
+    --ink:         230 238 245;
+    --ink-soft:    145 163 180;
+    --lagoon:       18 175 190;
+    --lagoon-deep:  10 122 133;
+    --accent:      111 224 236;
+    --shine:       255 206  85;
+    --goop:        150 106 214;
+    --coral:       244 121  95;
+    --coral-deep:  255 179 160;
+
+    --edge: rgba(255, 255, 255, 0.06);
+    --drop: rgba(0, 0, 0, 0.85);
+    --drop-strong: rgba(0, 0, 0, 0.95);
+    --focus: #6fe0ec;
+
+    --lip-primary: #076a74;
+    --lip-shine: #a97812;
+    --lip-danger: #8c2f19;
+
+    /* Very dark blue bloom top-left, near-black gray everywhere else. */
+    --wash:
+      radial-gradient(circle at 12% -12%, rgba(18, 175, 190, 0.16), transparent 48%),
+      radial-gradient(circle at 88% -4%, rgba(37, 66, 122, 0.28), transparent 46%),
+      linear-gradient(180deg, rgba(16, 24, 38, 0.9), rgba(9, 12, 17, 0) 60%);
+
+    --field: 12 17 24;
+
+    --stage: linear-gradient(to bottom, #142230, #0c1119);
+    --stage-soft: linear-gradient(to bottom, #16242f, #0d1219);
   }
 
   html {
@@ -13,10 +91,8 @@
 
   body {
     @apply bg-sand font-body text-ink antialiased;
-    /* Faint plaza tile: two offset radial washes, no image request. */
-    background-image:
-      radial-gradient(circle at 12% -10%, rgba(15, 163, 177, 0.14), transparent 45%),
-      radial-gradient(circle at 92% 0%, rgba(255, 197, 61, 0.18), transparent 40%);
+    /* Faint plaza tile: offset radial washes, no image request. */
+    background-image: var(--wash);
     background-attachment: fixed;
   }
 
@@ -30,20 +106,36 @@
   h3 { @apply text-xl font-bold; }
 
   a {
-    @apply text-lagoonDeep underline-offset-2;
+    @apply text-accent underline-offset-2;
   }
   a:hover { @apply underline; }
 
+  /* Filenames and .ini keys read as data, not prose, in either theme. */
+  code {
+    @apply rounded-md bg-lagoon/10 px-1.5 py-0.5 text-[0.9em] text-accent;
+  }
+
   /* One focus treatment everywhere, always visible, never hover-only. */
   :focus-visible {
-    outline: 3px solid #0a6c77;
+    outline: 3px solid var(--focus);
     outline-offset: 2px;
     border-radius: 6px;
   }
 
   ::selection {
-    background: #ffc53d;
+    background: rgb(var(--shine));
     color: #14323c;
+  }
+
+  /*
+   * Only while the theme is actually being switched. A permanent transition on
+   * every element makes ordinary hovers feel laggy.
+   */
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition: background-color 180ms ease, border-color 180ms ease,
+                color 180ms ease, fill 180ms ease, stroke 180ms ease !important;
   }
 }
 
@@ -60,15 +152,24 @@
   .btn:not(:disabled):active {
     transform: translateY(1px);
   }
+
   .btn-primary {
-    @apply btn bg-lagoon text-white shadow-[0_3px_0_0_#0A6C77];
+    @apply btn bg-lagoon text-white;
+    box-shadow: 0 3px 0 0 var(--lip-primary);
   }
   .btn-primary:not(:disabled):hover { @apply bg-lagoonDeep no-underline; }
 
   .btn-shine {
-    @apply btn bg-shine text-ink shadow-[0_3px_0_0_#D99E19];
+    @apply btn bg-shine text-[#14323c];
+    box-shadow: 0 3px 0 0 var(--lip-shine);
   }
   .btn-shine:not(:disabled):hover { @apply brightness-105 no-underline; }
+
+  .btn-danger {
+    @apply btn bg-coral text-white;
+    box-shadow: 0 3px 0 0 var(--lip-danger);
+  }
+  .btn-danger:not(:disabled):hover { @apply brightness-105 no-underline; }
 
   .btn-ghost {
     @apply btn border-2 border-ink/15 bg-shell text-ink;
@@ -78,8 +179,9 @@
   .btn-sm { @apply px-3.5 py-1.5 text-sm; }
 
   .field {
-    @apply w-full rounded-xl border-2 border-sandDeep bg-shell px-3.5 py-2.5 text-base
+    @apply w-full rounded-xl border-2 border-sandDeep px-3.5 py-2.5 text-base
            text-ink placeholder:text-inkSoft/70 focus:border-lagoon focus:outline-none;
+    background-color: rgb(var(--field));
   }
 
   .label {
@@ -92,7 +194,20 @@
 
   .tag {
     @apply inline-flex items-center rounded-full bg-lagoon/10 px-2.5 py-0.5 text-sm
-           font-medium text-lagoonDeep no-underline;
+           font-medium text-accent no-underline;
+  }
+
+  /* Panel for an error or warning message. */
+  .notice-error {
+    @apply rounded-xl border-2 border-coral/50 bg-coral/10 px-3 py-2 text-sm text-coralDeep;
+  }
+
+  /* Backdrop the model preview sits on, 3D and flat alike. */
+  .stage {
+    background-image: var(--stage);
+  }
+  .stage-soft {
+    background-image: var(--stage-soft);
   }
 
   .skeleton {
