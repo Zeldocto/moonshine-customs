@@ -54,7 +54,7 @@ export function SkinCard({ skin }: { skin: SkinRecord }) {
 
         <div className="flex gap-2">
           <Link to={`/skin/${skin.id}`} className="btn-ghost btn-sm flex-1">
-            View skin
+            View
           </Link>
           <div className="flex-1">
             <DownloadButton skin={skin} variant="shine" />
