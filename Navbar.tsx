@@ -212,21 +212,16 @@ function ExternalMark() {
   )
 }
 
-/**
- * The Shine sprite from public/. BASE_URL keeps it pointing at the right place
- * under the GitHub Pages subpath. Decorative — the wordmark beside it carries
- * the name — so it is hidden from screen readers.
- */
+/** Shine sprite, abstracted into a simple mark. */
 function ShineMark() {
   return (
     <img
       src={`${import.meta.env.BASE_URL}moonshine.png`}
       alt=""
       aria-hidden="true"
-      width={34}
-      height={34}
-      className="h-[34px] w-[34px] shrink-0 select-none"
-      draggable={false}
+      width={30}
+      height={30}
+      className="h-[30px] w-[30px] object-contain"
     />
   )
 }
