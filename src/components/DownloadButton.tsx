@@ -33,7 +33,7 @@ export function DownloadButton({ skin, variant = 'shine', showCount = false }: D
 
   return (
     <button type="button" className={`${classes} w-full`} onClick={() => void handleDownload()} disabled={busy}>
-      {busy ? 'Preparing…' : 'Download skin'}
+      {busy ? 'Preparing…' : 'Download'}
       {showCount && <span className="font-body text-sm font-medium">({formatCount(count)})</span>}
     </button>
   )
