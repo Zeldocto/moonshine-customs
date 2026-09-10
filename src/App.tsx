@@ -96,16 +96,21 @@ export default function App() {
   )
 }
 
+const DISCLAIMER =
+  '...D.E.B.S. ALERT... This is a community project for the Super Mario Sunshine speedrunning scene. Not affiliated with Nintendo. — Skins are color values only. Nothing here modifies your game files.'
+
 function Footer() {
   return (
     <footer className="mt-16 border-t border-sandDeep bg-shell/60">
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-sm text-inkSoft sm:flex-row sm:items-center sm:justify-between">
-        <p>
-          Moonshine Skins — a community project for the Super Mario Sunshine speedrunning scene.
-          Not affiliated with Nintendo.
-        </p>
-        <p>Skins are color values only. Nothing here modifies your game files.</p>
+      <div className="ticker py-2 text-sm text-white" role="note" aria-label="Site disclaimer">
+        <div className="ticker-track">
+          <span className="px-8">{DISCLAIMER}</span>
+          <span className="px-8" aria-hidden="true">
+            {DISCLAIMER}
+          </span>
+        </div>
       </div>
     </footer>
   )
 }
+
