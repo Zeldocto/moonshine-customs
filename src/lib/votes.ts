@@ -29,11 +29,23 @@ export async function getMyVotes(skinIds: string[], userId: string): Promise<Rec
   return Object.fromEntries((data ?? []).map((r) => [r.skin_id, r.vote as VoteValue]))
 }
 
-export async function setVote(skinId: string, userId: string, vote: VoteValue): Promise<void> {
-  const { error } = await supabase
-    .from('skin_votes')
-    .upsert({ skin_id: skinId, user_id: userId, vote }, { onConflict: 'skin_id,user_id' })
+/**
+ * Voting goes through a database function rather than an upsert.
+ *
+ * PostgREST's upsert compiles to ON CONFLICT DO UPDATE writing skin_id, user_id
+ * and vote, but only `vote` was ever granted for UPDATE, so changing a vote was
+ * rejected on a column privilege check. cast_vote() also keeps the "no voting on
+ * your own skin" rule server-side, where a crafted request cannot skip it.
+ *
+ * Returns the skin's new score so the caller can settle any optimistic update.
+ */
+export async function setVote(skinId: string, _userId: string, vote: VoteValue): Promise<number> {
+  const { data, error } = await supabase.rpc('cast_vote', {
+    p_skin_id: skinId,
+    p_vote: vote,
+  })
   if (error) throw error
+  return data as number
 }
 
 export async function clearVote(skinId: string, userId: string): Promise<void> {
