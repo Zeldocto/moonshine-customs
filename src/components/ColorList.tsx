@@ -56,7 +56,6 @@ export function ColorList({ skin, open = false }: { skin: SkinData; open?: boole
                         {slot.label}
                         {!enabled && <span className="ml-1.5 text-xs text-inkSoft">(off)</span>}
                       </span>
-                      <span className="block text-xs text-inkSoft">{slot.hint}</span>
                     </span>
                     <button
                       type="button"
