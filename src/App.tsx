@@ -104,8 +104,8 @@ function Footer() {
     <footer className="mt-16 border-t border-sandDeep bg-shell/60">
       <div className="ticker py-2 text-sm text-white" role="note" aria-label="Site disclaimer">
         <div className="ticker-track">
-          <span className="px-8">{DISCLAIMER}</span>
-          <span className="px-8" aria-hidden="true">
+          <span className="ticker-item">{DISCLAIMER}</span>
+          <span className="ticker-item" aria-hidden="true">
             {DISCLAIMER}
           </span>
         </div>
