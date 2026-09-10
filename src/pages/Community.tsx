@@ -19,7 +19,7 @@ export default function Community() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <h1 className="text-3xl sm:text-4xl">Community</h1>
       <p className="mb-8 max-w-prose text-inkSoft">
-        Everything here was made by people practising Sunshine. Upload what you run with.
+        Everything here was made by people practicing Sunshine. Upload what you run with.
       </p>
 
       <dl className="mb-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -42,7 +42,7 @@ export default function Community() {
         <h2 className="text-xl">Ground rules</h2>
         <ul className="mt-3 list-disc space-y-1.5 pl-5 text-inkSoft">
           <li>Upload skins you made, or credit whoever did in the description.</li>
-          <li>Keep names, descriptions and tags civil — moderators can remove anything that is not.</li>
+          <li>Keep names, descriptions and tags civil, moderators can remove anything that is not.</li>
           <li>Vote on what you actually think of a skin, not who made it.</li>
           <li>
             Found something that breaks these? Say so in the community Discord and a moderator will
