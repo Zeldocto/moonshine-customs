@@ -41,7 +41,9 @@ export const MATERIAL_MATCHERS: Record<string, string[]> = {
   fludd_paint: ['fludd_paint'],           // the yellow shell
   fludd_metal: ['fludd_metal'],           // every chrome part, one mesh
   fludd_straps: ['fludd_straps'],         // brown harness + brown pack box
-  fludd_model_tank: ['fludd_model_tank'], // the translucent water sphere (mesh1)
+  // The water sphere (mesh1, no atlas map) plus the blue rubber neck ring
+  // between the body segments — both driven by the "Water tank" slot.
+  fludd_model_tank: ['fludd_model_tank', 'fludd_trim'],
 
   // Still tint nothing — no separable geometry for them:
   //   fludd_spray_nozzle / fludd_hover_nozzle  — gray metal, not cleanly
@@ -50,7 +52,6 @@ export const MATERIAL_MATCHERS: Record<string, string[]> = {
   //     .dae files entirely and isn't built into the model.
   //   fludd_water / fludd_water_highlight — the sphere is one mesh; its color
   //     is driven by `fludd_model_tank`.
-  // The blue accent ring is the untinted `fludd_trim` mesh (no matcher).
 }
 
 /**
@@ -89,6 +90,9 @@ export const SLOT_TINT: Record<string, SlotTint> = {
   fludd_paint:          { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.83, lumGain: 1.05 },
   fludd_metal:          { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.57, lumGain: 1.10 },
   fludd_straps:         { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.27, lumGain: 1.15 },
-  // fludd_model_tank has no atlas map — it falls through to the plain
-  // material.color path in applySkin, so it needs no tint profile here.
+  // Drives the blue rubber neck (`fludd_trim`), which does carry the item
+  // atlas. refLum is that ring's mean stock luminance from
+  // build_fludd_parts.py. The water sphere shares this slot but has no map, so
+  // it falls through to the plain material.color path and ignores this profile.
+  fludd_model_tank:     { hue: 0.00, hueTol: 9.99, satMin: -1.0, refLum: 0.42, lumGain: 1.10 },
 }

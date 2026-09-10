@@ -6,6 +6,7 @@ import { PlaceholderMario } from './PlaceholderMario'
 import { GltfMario } from './GltfMario'
 import { MARIO_MODEL_URL } from './modelConfig'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import type { PartVisibility } from './applySkin'
 import type { SkinData } from '../../types/skin'
 
 /** Gentle idle bob. Skipped entirely when the visitor asks for less motion. */
@@ -24,9 +25,16 @@ export interface MarioViewerProps {
   /** Larger view on the detail page gets a slightly wider frame. */
   height?: number
   interactive?: boolean
+  /** Optional cosmetic parts. Omitted means "show everything". */
+  parts?: PartVisibility
 }
 
-export default function MarioViewer({ skin, height = 320, interactive = true }: MarioViewerProps) {
+export default function MarioViewer({
+  skin,
+  height = 320,
+  interactive = true,
+  parts,
+}: MarioViewerProps) {
   const reducedMotion = usePrefersReducedMotion()
 
   return (
@@ -47,7 +55,7 @@ export default function MarioViewer({ skin, height = 320, interactive = true }: 
         <Suspense fallback={null}>
           <Idle enabled={!reducedMotion}>
             {MARIO_MODEL_URL ? (
-              <GltfMario url={MARIO_MODEL_URL} skin={skin} />
+              <GltfMario url={MARIO_MODEL_URL} skin={skin} parts={parts} />
             ) : (
               <PlaceholderMario skin={skin} />
             )}

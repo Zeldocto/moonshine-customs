@@ -154,6 +154,44 @@ function installTint(mat: THREE.MeshStandardMaterial, profile: (typeof SLOT_TINT
   return uniforms
 }
 
+/**
+ * Optional cosmetic parts the viewer can hide.
+ *
+ * Keyed by the option name the UI exposes; the values are mesh-name fragments,
+ * matched the same case-insensitive way as MATERIAL_MATCHERS. Both parts are
+ * genuinely optional in game, so hiding them is a display choice, not a skin
+ * property — nothing here touches the skin data.
+ */
+const OPTIONAL_PARTS: Record<string, string[]> = {
+  shineShirt: ['mario_sunshine_shirt', 'mario_shine_logo'],
+  sunglasses: ['mario_sunglasses'],
+}
+
+export interface PartVisibility {
+  shineShirt?: boolean
+  sunglasses?: boolean
+}
+
+/**
+ * Show or hide the optional parts. Safe to call on every render: it only
+ * writes `visible`, so it costs nothing and needs no material work.
+ */
+export function setPartVisibility(root: THREE.Object3D, parts: PartVisibility): void {
+  root.traverse((object) => {
+    const mesh = object as THREE.Mesh
+    if (!mesh.isMesh) return
+    const name = mesh.name.toLowerCase()
+
+    for (const [key, patterns] of Object.entries(OPTIONAL_PARTS)) {
+      const wanted = parts[key as keyof PartVisibility]
+      if (wanted === undefined) continue
+      if (patterns.some((pattern) => name.includes(pattern.toLowerCase()))) {
+        mesh.visible = wanted
+      }
+    }
+  })
+}
+
 /** Explicit tag first (placeholder model), then name matching (imported model). */
 function resolveSlot(mesh: THREE.Mesh): string | null {
   const tagged = mesh.userData?.skinSlot
