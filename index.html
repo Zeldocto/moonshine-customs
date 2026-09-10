@@ -6,7 +6,7 @@
     <title>Moonshine Skins</title>
     <meta
       name="description"
-      content="Community colour skins for Moonshine, the Super Mario Sunshine practice mod. Browse, preview on Mario and FLUDD, and download."
+      content="Community color skins for Moonshine, the Super Mario Sunshine practice mod. Browse, preview on Mario and FLUDD, and download."
     />
     <!--
       GitHub Pages cannot set response headers, so a Content-Security-Policy
@@ -33,6 +33,22 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rubik:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <script>
+      // Theme, before first paint — otherwise dark-mode visitors get a white
+      // flash on every load. Key must match THEME_STORAGE_KEY in src/lib/theme.tsx.
+      (function () {
+        try {
+          var saved = localStorage.getItem('moonshine:theme')
+          var dark =
+            saved === 'dark' ||
+            (saved !== 'light' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+          if (dark) document.documentElement.classList.add('dark')
+        } catch (e) {
+          /* Site data blocked. Light mode is a fine default. */
+        }
+      })()
+    </script>
     <script>
       // GitHub Pages has no server-side rewrite, so a hard refresh on
       // /moonshine-customs/skin/abc 404s. public/404.html stashes the path in

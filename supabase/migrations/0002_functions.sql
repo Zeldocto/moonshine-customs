@@ -20,9 +20,15 @@ insert into public.blocked_words (word) values
   ('admin'), ('moderator'), ('moonshine'), ('official'), ('support'), ('system')
 on conflict do nothing;
 
--- Normalises common letter/number substitutions before matching, so "sh1t"
+-- Normalizes common letter/number substitutions before matching, so "sh1t"
 -- is caught along with "shit".
-create or replace function public.normalise_for_moderation(p_text text)
+--
+-- This function used to be spelled normalise_for_moderation. Dropping the old
+-- name keeps a database that already ran an earlier version of this migration
+-- from carrying two copies around.
+drop function if exists public.normalise_for_moderation(text);
+
+create or replace function public.normalize_for_moderation(p_text text)
 returns text
 language sql
 immutable
@@ -41,7 +47,7 @@ as $$
   select p_username ~ '^[A-Za-z0-9_-]{3,24}$'
      and not exists (
        select 1 from public.blocked_words b
-       where public.normalise_for_moderation(p_username) like '%' || b.word || '%'
+       where public.normalize_for_moderation(p_username) like '%' || b.word || '%'
      );
 $$;
 
@@ -181,7 +187,7 @@ language plpgsql
 set search_path = public, pg_temp
 as $$
 begin
-  -- Trim/normalise tags: lowercase, deduplicated, short, no whitespace tricks.
+  -- Trim/normalize tags: lowercase, deduplicated, short, no whitespace tricks.
   if new.tags is not null then
     new.tags := (
       select coalesce(array_agg(distinct t), '{}')
@@ -237,7 +243,7 @@ create trigger skins_before_write
 --
 -- Correctness under concurrency: every branch is a single UPDATE with a
 -- relative delta (count = count + 1), which takes a row lock and re-reads
--- the current value. Two simultaneous votes on the same skin serialise on
+-- the current value. Two simultaneous votes on the same skin serialize on
 -- that lock instead of overwriting each other.
 -- ---------------------------------------------------------------------
 create or replace function public.apply_vote_delta(p_skin_id uuid, p_up int, p_down int)

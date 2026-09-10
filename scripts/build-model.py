@@ -1,20 +1,20 @@
 """Build mario_fludd.glb properly.
 
-Why this exists: Sunshine keeps Mario's colours in the texture atlas, not in
-per-material colours. One ripped material ("_mat_head") covers the blue overall
+Why this exists: Sunshine keeps Mario's colors in the texture atlas, not in
+per-material colors. One ripped material ("_mat_head") covers the blue overall
 bib, the blue legs AND the red shirt sleeves. Tinting by material therefore
 cannot work.
 
-So we classify every triangle by the colour it samples from the atlas and split
+So we classify every triangle by the color it samples from the atlas and split
 the geometry into one mesh per Moonshine slot.
 
   ⚠ SUPERSEDED: this script also *rewrites* the atlas so tinted regions carry
   luminance only, with hue coming from a per-slot baseColor. That destroyed the
   original pixels, so misclassifications were permanent - the shine shirt lost
-  its cyan base and a greyed region bled white onto Mario's nose.
+  its cyan base and a grayed region bled white onto Mario's nose.
 
   The preview no longer relies on that. It keeps the ORIGINAL atlas untouched
-  and recolours at runtime in a hue-shift shader (src/components/preview/
+  and recolors at runtime in a hue-shift shader (src/components/preview/
   applySkin.ts + SLOT_TINT in modelConfig.ts). After regenerating the .glb
   here, run `npm run model:restore-atlas` to swap the original atlas back in
   and reset the baked baseColors to white. The geometry split below is still
@@ -33,7 +33,7 @@ F = '/home/claude/repo/public/models/FLUDD/'
 ATLAS = 'H_ma_new_main_s3tc.png'
 SCALE = 1.0 / 70.0
 
-# Colour bucket -> slot, per ripped material group. None means "never tint".
+# Color bucket -> slot, per ripped material group. None means "never tint".
 RULES = {
     '_mat_head_7_': {'*': 'mario_cap'},
     # The shine shirt is a cyan base with yellow shine sprites printed on it.
@@ -41,7 +41,7 @@ RULES = {
     '_mat_head_2_': {'*': 'mario_sunshine_shirt'},
     # brown here is Mario's bare forearms, not footwear - leave it untinted.
     '_mat_head':    {'blue': 'mario_overalls', 'red': 'mario_shirt',
-                     'orange/brown': None, 'white/grey': None,
+                     'orange/brown': None, 'white/gray': None,
                      '*': 'mario_overalls'},
     '_mat_head_5_': {'*': 'mario_gloves'},
     '_mat_head_6_': {'*': 'mario_gloves'},
@@ -63,7 +63,7 @@ def bucket(rgb):
     if v < 0.18:
         return 'black'
     if s < 0.18:
-        return 'white/grey' if v > 0.6 else 'grey'
+        return 'white/gray' if v > 0.6 else 'gray'
     if h < 0.045 or h > 0.93:
         return 'red'
     if h < 0.11:
@@ -174,7 +174,7 @@ def build():
         raster([uvs[t] for t in tis], sid[slot])
 
     # Untinted geometry (face, eyes, mouth, forearms) shares atlas space with
-    # tinted geometry. Greying those texels turned Mario's nose white, so mark
+    # tinted geometry. Graying those texels turned Mario's nose white, so mark
     # them and never touch them.
     protect = np.zeros((H, W), dtype=bool)
     saved = label.copy()
@@ -187,7 +187,7 @@ def build():
     out = atlas.copy()
     lum = atlas @ np.array([0.299, 0.587, 0.114])
     # Per-texel bucket, so printed detail inside a region (the shine sprites on
-    # the shirt, the M on the cap) keeps its own colour instead of being greyed
+    # the shirt, the M on the cap) keeps its own color instead of being grayed
     # along with the fabric around it.
     flat = atlas.reshape(-1, 3)
     tex_bucket = np.array([bucket(c) for c in flat]).reshape(H, W)
@@ -213,7 +213,7 @@ def build():
         if mask.any():
             mean_rgb = atlas[mask].reshape(-1, 3).mean(0)
             # exported texel is lum/mean_lum * 200, so this factor reproduces
-            # the stock look when no skin colour overrides the slot.
+            # the stock look when no skin color overrides the slot.
             defaults[s_] = [float(min(c / 200.0, 1.0)) for c in mean_rgb]
 
     for p in parts.values():
@@ -237,7 +237,7 @@ def build():
     # swapped"). With no flip the body sits right (buckle to the front); the
     # nozzle rests folded back, and OFF.z is pulled well back (~-70) so the pack
     # floats just behind Mario instead of clipping his head. It keeps
-    # H_watergun_main_s3tc_item.png untouched and recolours at runtime via
+    # H_watergun_main_s3tc_item.png untouched and recolors at runtime via
     # applySkin.ts, same as Mario. If you re-run this script, re-run those two.
     import math as _m
     fv, ff = load_dae(F + 'watergun_item.dae')
@@ -245,9 +245,9 @@ def build():
     fv = fv @ np.array([[_m.cos(_a), 0, _m.sin(_a)], [0, 1, 0],
                         [-_m.sin(_a), 0, _m.cos(_a)]]).T
     used = sorted({i for a, b, c, _ in ff for i in (a, b, c)})
-    centre = fv[used].mean(0)
-    off = np.array([0, 68, -30]) - centre
-    fxf = lambda p: (centre + (np.array(p) + off - centre) * 0.85) * SCALE
+    center = fv[used].mean(0)
+    off = np.array([0, 68, -30]) - center
+    fxf = lambda p: (center + (np.array(p) + off - center) * 0.85) * SCALE
     fp = part('fludd_paint', 'fludd_paint', None)
     for a, b, c, _m in ff:
         fp.add(((a, None), (b, None), (c, None)), fv, None, fxf)

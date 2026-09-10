@@ -13,7 +13,7 @@
  *        mario_sunglasses_lens  — vertexColors_glass.png, alphaMode BLEND at
  *          ~0.8 so the tinted lens reads as glass, a bit more solid than before.
  *      Both mesh names contain "mario_sunglasses" so both still match the
- *      mario_sunglasses skin slot and recolour together.
+ *      mario_sunglasses skin slot and recolor together.
  *
  *   node scripts/build-glasses.mjs
  */

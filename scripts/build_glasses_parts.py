@@ -12,14 +12,14 @@ this script emits.
     vertexColors            -> the lens panes (flat, at the front)   -> LENS
     _mat_sunglass_A_flame   -> frame + temple arms (front to back)   -> FRAME
 
-Transform matches build-model.py: 270° about Y, recentre to [0,114,14], /70.
+Transform matches build-model.py: 270° about Y, recenter to [0,114,14], /70.
 The rip also has the whole thing rolled 180° (brow bar ends up at the bottom —
 "wearing them upside down"), so GLASS_ROLL defaults to 180 to put the brow on top.
 
 Env knobs for iterating on orientation:
   GLASS_VFLIP=1|0     flip texture V (default 1, like build-model.py's Part.add)
   GLASS_ROLL=<deg>    roll about the view axis (Z) after transform (default 180)
-  GLASS_OFF=x,y,z     override the recentre target
+  GLASS_OFF=x,y,z     override the recenter target
 """
 import json, math, os
 import numpy as np
@@ -30,9 +30,9 @@ M = os.path.join(HERE, '..', 'public', 'models', 'Mario')
 OUT = os.path.join(HERE, 'glasses_parts.json')
 
 # The frame texture (H_mario_sunglass_flame_ia4.png) is black RGB + a frame-shaped
-# alpha. Multiplying it by a tint colour would stay black, so the sunglasses slot
-# could never recolour the frame. Emit a white-RGB copy that keeps the alpha, so
-# frame colour = baseColorFactor (driven by applySkin) * white.
+# alpha. Multiplying it by a tint color would stay black, so the sunglasses slot
+# could never recolor the frame. Emit a white-RGB copy that keeps the alpha, so
+# frame color = baseColorFactor (driven by applySkin) * white.
 _src = Image.open(os.path.join(M, 'H_mario_sunglass_flame_ia4.png')).convert('RGBA')
 _a = np.array(_src)
 _a[:, :, :3] = 255

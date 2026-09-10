@@ -1,20 +1,20 @@
 /**
  * restore-atlas.mjs — post-process public/models/mario_fludd.glb so the 3D
- * preview shows Mario in his true colours.
+ * preview shows Mario in his true colors.
  *
  * BACKGROUND
  * ----------
  * The original build-model.py rewrote Mario's texture atlas so every tinted
  * region carried luminance only, with hue coming from a per-slot baseColor.
  * That destroyed the original pixels, so any misclassification was permanent:
- * the shine shirt lost its cyan base, and a greyed region bled white onto
+ * the shine shirt lost its cyan base, and a grayed region bled white onto
  * Mario's nose.
  *
  * NEW APPROACH
  * ------------
  * Keep Sunshine's original atlas (public/models/Mario/H_ma_new_main_s3tc.png)
  * byte-for-byte. A slot with no skin override then renders exactly what the
- * game drew. Recolouring happens at runtime in a hue-shift shader
+ * game drew. Recoloring happens at runtime in a hue-shift shader
  * (src/components/preview/applySkin.ts + SLOT_TINT in modelConfig.ts), which
  * only touches texels matching a slot's stock hue and can't break the face,
  * the cap's "M" or the yellow shine sprites.

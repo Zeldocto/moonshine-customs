@@ -12,7 +12,7 @@ const { candidates, warnings } = parseMoonshineIni(text)
 
 console.log('warnings:', warnings)
 for (const c of candidates) {
-  console.log(`\n[${c.section}] region=${c.regionLabel} customised=${c.customisedCount}`)
+  console.log(`\n[${c.section}] region=${c.regionLabel} customized=${c.customizedCount}`)
   console.log('  enabled:', c.data.enabled)
   console.log('  slots:', Object.entries(c.data.slots).map(([k, v]) => `${k}=${v.join(',')}`).join(' '))
 }

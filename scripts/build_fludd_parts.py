@@ -1,12 +1,12 @@
 """Parse watergun_item.dae, apply build-model.py's FLUDD transform, split mesh0
-by texel colour into Moonshine slots, and dump fludd_parts.json for the Node
+by texel color into Moonshine slots, and dump fludd_parts.json for the Node
 glb-patcher.
 
 Mirrors scripts/build-model.py's FLUDD block exactly:
   * 180 deg Y rotation
-  * centre/scale: (centre + (p + off - centre) * 0.85) / 70, off = [0,68,-30]-centre
-  * centre computed over ALL verts in the file (mesh0 + mesh1), like load_dae.
-The item texture (H_watergun_main_s3tc_item.png) is kept UNTOUCHED; slots recolour
+  * center/scale: (center + (p + off - center) * 0.85) / 70, off = [0,68,-30]-center
+  * center computed over ALL verts in the file (mesh0 + mesh1), like load_dae.
+The item texture (H_watergun_main_s3tc_item.png) is kept UNTOUCHED; slots recolor
 at runtime via the same hue-shift shader Mario uses.
 """
 import json, math, colorsys, os
@@ -62,7 +62,7 @@ def bucket(rgb):
     if v < 0.18:
         return 'black'
     if s < 0.20:
-        return 'white/grey' if v > 0.55 else 'grey'
+        return 'white/gray' if v > 0.55 else 'gray'
     if h < 0.045 or h > 0.93:
         return 'red'
     if h < 0.11:
@@ -157,12 +157,12 @@ all_pos = np.vstack([m0['pos'], m1['pos']])
 all_pos_r = all_pos @ Ry
 used = np.unique(np.concatenate([m0['vidx'].ravel(),
                                  (m1['vidx'] + len(m0['pos'])).ravel()]))
-centre = all_pos_r[used].mean(0)
-off = OFF - centre
+center = all_pos_r[used].mean(0)
+off = OFF - center
 
 
 def xf(p):
-    return (centre + (p + off - centre) * SCL) / 70.0
+    return (center + (p + off - center) * SCL) / 70.0
 
 
 m0pos = np.array([xf(v) for v in m0['pos'] @ Ry])
@@ -181,11 +181,11 @@ def samp(u):
 
 uvc = m0['uv'].mean(1)
 bk = np.array([bucket(samp(u)) for u in uvc])
-bk = np.where(np.isin(bk, ['white/grey', 'grey']), 'metal', bk)
+bk = np.where(np.isin(bk, ['white/gray', 'gray']), 'metal', bk)
 
 # The FLUDD slot table (src/lib/skin-format/slots.ts):
 #   fludd_paint   -> yellow shell
-#   fludd_metal   -> every grey/chrome part (nozzles, joints, pump, funnel)
+#   fludd_metal   -> every gray/chrome part (nozzles, joints, pump, funnel)
 #   fludd_straps  -> the harness: brown shoulder straps + the brown pack box
 #   fludd_model_tank ("Water tank", blue fallback) -> the translucent sphere = mesh1
 # The blue accent ring between body segments has no slot -> untinted `fludd_trim`.
@@ -257,7 +257,7 @@ for slot, tri_ids in by_slot.items():
         refLum=float(np.mean(lums)), meanRGB=mean_rgb.tolist(),
     ))
 
-# --- water tank sphere (mesh1): vertex-coloured, no map -------------------
+# --- water tank sphere (mesh1): vertex-colored, no map -------------------
 P, N, _UV, IDX = emit(list(range(len(m1['vidx']))), m1pos, m1['vidx'], None)
 water_rgb = m1['col'].reshape(-1, m1['col'].shape[-1])[:, :3].mean(0)
 parts.append(dict(

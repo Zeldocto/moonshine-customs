@@ -55,7 +55,7 @@ unless `app.internal_counter_write` is set, which only `apply_vote_delta()`,
 
 Votes move totals through a trigger on `skin_votes`, using relative deltas
 (`count = count + 1`) inside a single statement. Two people voting at once
-serialise on the row lock rather than overwriting each other's read. Switching
+serialize on the row lock rather than overwriting each other's read. Switching
 upvote to downvote applies `-1` and `+1` in one statement, so a skin at three
 upvotes becomes two up / one down — the arithmetic you asked for.
 
@@ -79,7 +79,7 @@ Ballots are readable only by the person who cast them.
 ## Uploads
 
 The file a user picks is parsed in the browser and **thrown away**. What is
-stored is a file this application generated from the parsed colour values. The
+stored is a file this application generated from the parsed color values. The
 bucket therefore contains no attacker-supplied bytes at all — the strongest
 version of "validate the upload" is not to keep it.
 

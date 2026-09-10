@@ -1,7 +1,7 @@
 # Moonshine Skins
 
 A community skin repository for **Moonshine**, the Super Mario Sunshine practice mod.
-Upload the colour set from your `susamune.ini`, see it on a Mario + FLUDD model, and
+Upload the color set from your `susamune.ini`, see it on a Mario + FLUDD model, and
 let other runners vote on it and download it.
 
 Frontend: React + TypeScript + Vite + Tailwind, hosted on GitHub Pages.
@@ -14,7 +14,7 @@ Live at `https://zeldocto.github.io/moonshine-customs/`
 ## What a skin is
 
 Moonshine writes a settings file. Buried in its `[creation_jp]` / `[creation_us]`
-sections are seventeen colour keys:
+sections are seventeen color keys:
 
 ```
 mario_cap_rgb = 255,255,255
@@ -28,11 +28,11 @@ fludd_colors_enabled = 0
 
 The site parses **only those keys** out of the uploaded file, in the browser. ISO
 paths, key binds, timer layout and every other setting are discarded before
-anything is sent to the server. What gets stored is the colour data and a small
+anything is sent to the server. What gets stored is the color data and a small
 generated `.txt` containing the same values.
 
 All of that lives in one place — [`src/lib/skin-format/slots.ts`](src/lib/skin-format/slots.ts).
-If Moonshine renames a key or adds a colour, edit that table and the parser,
+If Moonshine renames a key or adds a color, edit that table and the parser,
 download file, RGB list and 3D preview all follow.
 
 ## Quick start
@@ -96,7 +96,7 @@ SkinPreview                 lazy-loads WebGL only when scrolled into view
 
 Grid cards deliberately use a flat SVG (`SkinSilhouette`) instead of a canvas:
 twenty live WebGL contexts on one page is not something a phone should be asked
-to do, and the SVG reads the colours just as clearly. The 3D viewer appears on
+to do, and the SVG reads the colors just as clearly. The 3D viewer appears on
 the home hero, the skin page and the upload preview, where it earns its cost.
 
 The real model is not included — see [public/models/README.md](public/models/README.md).

@@ -11,9 +11,9 @@
  *   2. This loads the current glb, drops the single `fludd_paint` mesh, and
  *      adds one mesh per FLUDD slot:
  *        fludd_paint / fludd_metal / fludd_straps  -> share the UNTOUCHED
- *          H_watergun_main_s3tc_item.png atlas, recoloured at runtime by the
+ *          H_watergun_main_s3tc_item.png atlas, recolored at runtime by the
  *          same hue-shift shader Mario uses (applySkin.ts + SLOT_TINT).
- *        fludd_model_tank -> the vertex-blue water sphere, plain-colour path.
+ *        fludd_model_tank -> the vertex-blue water sphere, plain-color path.
  *        fludd_trim       -> the blue accent ring, no slot, always stock.
  *   3. Mario's meshes are copied through untouched.
  *
@@ -79,7 +79,7 @@ for (const part of PARTS) {
     mat.setBaseColorTexture(atlas)
     mat.setBaseColorFactor([1, 1, 1, 1]) // texture carries the stock look
   } else {
-    // water sphere: no atlas, translucent, colour comes from the mean vertex-blue
+    // water sphere: no atlas, translucent, color comes from the mean vertex-blue
     const [cr, cg, cb] = part.meanRGB
     mat.setBaseColorFactor([cr, cg, cb, 0.7]).setAlphaMode('BLEND')
   }
