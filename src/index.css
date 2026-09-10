@@ -213,6 +213,39 @@
   .skeleton {
     @apply animate-pulse rounded-xl bg-sandDeep/70;
   }
+
+  /* Footer disclaimer, scrolling as a single endless line. The track holds two
+     identical copies of the text, so translating it exactly -50% loops seamlessly. */
+  .ticker {
+    @apply overflow-hidden bg-black/50;
+  }
+  .ticker-track {
+    @apply flex w-max whitespace-nowrap;
+    animation: ticker-scroll 45s linear infinite;
+  }
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* No motion: drop the duplicate copy and let the line wrap in place. */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    @apply w-full whitespace-normal;
+    animation: none;
+  }
+  .ticker-track > [aria-hidden='true'] {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
