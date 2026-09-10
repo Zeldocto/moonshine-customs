@@ -46,11 +46,17 @@ export default function MarioViewer({
         shadows
         camera={{ position: [0, 0.5, 4.2], fov: 42 }}
         dpr={[1, 1.75]}
-        gl={{ antialias: true, powerPreference: 'low-power' }}
+        // Exposure is the single global dimmer. The model's lit faces were
+        // clipping to white; pulling this back keeps the shadow shaping intact
+        // while stopping the highlights from blowing out.
+        gl={{ antialias: true, powerPreference: 'low-power', toneMappingExposure: 0.82 }}
       >
-        <ambientLight intensity={0.85} />
-        <directionalLight position={[3, 5, 4]} intensity={1.5} castShadow shadow-mapSize={[1024, 1024]} />
-        <directionalLight position={[-4, 2, -3]} intensity={0.5} color="#9ad8e6" />
+        {/* Ambient was doing too much of the work, which flattened the model
+            and pushed every lit surface toward white. Most of the light now
+            comes from the key, which is what gives the shading its shape. */}
+        <ambientLight intensity={0.42} />
+        <directionalLight position={[3, 5, 4]} intensity={1.15} castShadow shadow-mapSize={[1024, 1024]} />
+        <directionalLight position={[-4, 2, -3]} intensity={0.35} color="#9ad8e6" />
 
         <Suspense fallback={null}>
           <Idle enabled={!reducedMotion}>
@@ -61,7 +67,9 @@ export default function MarioViewer({
             )}
           </Idle>
           <ContactShadows position={[0, -1.08, 0]} opacity={0.32} scale={7} blur={2.6} far={3} />
-          <Environment preset="park" />
+          {/* The HDRI adds a second full dose of ambient on top of the lights
+              above; at full strength it was the main cause of the wash-out. */}
+          <Environment preset="park" environmentIntensity={0.45} />
         </Suspense>
 
         <OrbitControls
