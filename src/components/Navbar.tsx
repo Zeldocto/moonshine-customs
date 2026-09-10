@@ -216,7 +216,7 @@ function ExternalMark() {
 function ShineMark() {
   return (
     <img
-      src="/moonshine.png"
+      src="../public/moonshine.png"
       alt=""
       aria-hidden="true"
       width={30}
