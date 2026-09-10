@@ -43,7 +43,7 @@ export default function SkinDetail() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
         <div className="surface overflow-hidden p-2">
-          <SkinPreview skin={skin.colors} height={460} />
+          <SkinPreview skin={skin.colors} height={460} showPartToggles />
           <p className="px-3 py-2 text-center text-sm text-inkSoft">
             Drag to rotate, scroll or pinch to zoom.
           </p>
