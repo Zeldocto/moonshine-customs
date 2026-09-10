@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "tsc --noEmit",
     "model:restore-atlas": "node scripts/restore-atlas.mjs",
+    "model:extras": "node scripts/build-extras.mjs",
     "preview:shot": "node scripts/preview-shot.mjs"
   },
   "dependencies": {

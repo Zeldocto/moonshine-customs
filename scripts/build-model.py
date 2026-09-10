@@ -224,6 +224,21 @@ def build():
     # ---- FLUDD -------------------------------------------------------------
     # watergun_item.dae is the assembled pack; body.dae is skinned and needs
     # joint transforms we do not read.
+    #
+    # ⚠ The single flat `fludd_paint` mesh emitted here is SUPERSEDED. FLUDD is
+    # now split per Moonshine slot (fludd_paint / fludd_metal / fludd_straps /
+    # fludd_model_tank / fludd_trim) by scripts/build-fludd.mjs, which runs
+    # locally against the .glb this script produces:
+    #     python scripts/build_fludd_parts.py   # classify watergun_item.dae
+    #     node   scripts/build-fludd.mjs        # patch the meshes into the glb
+    # build_fludd_parts.py owns FLUDD's transform now, and DROPS the 180° Y flip
+    # below: that flip aimed the nozzle forward but put the waistband/buckle on
+    # FLUDD's back and the back panel against Mario ("waistband and back
+    # swapped"). With no flip the body sits right (buckle to the front); the
+    # nozzle rests folded back, and OFF.z is pulled well back (~-70) so the pack
+    # floats just behind Mario instead of clipping his head. It keeps
+    # H_watergun_main_s3tc_item.png untouched and recolours at runtime via
+    # applySkin.ts, same as Mario. If you re-run this script, re-run those two.
     import math as _m
     fv, ff = load_dae(F + 'watergun_item.dae')
     _a = _m.radians(180)
