@@ -215,14 +215,13 @@ function ExternalMark() {
 /** Shine sprite, abstracted into a simple mark. */
 function ShineMark() {
   return (
-    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
-      <path
-        d="M16 2 l3.6 8.2 L28 12 l-6.4 5.6 L23.4 26 L16 21.6 L8.6 26 l1.8 -8.4 L4 12 l8.4 -1.8 z"
-        className="fill-shine stroke-ink"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <circle cx="16" cy="15" r="3.4" className="fill-lagoon" />
-    </svg>
+    <img
+      src="/moonshine.png"
+      alt=""
+      aria-hidden="true"
+      width={30}
+      height={30}
+      className="h-[30px] w-[30px] object-contain"
+    />
   )
 }
