@@ -1,0 +1,40 @@
+# Keeps the Moonshine Customs Supabase project from auto-pausing.
+# Free-tier projects pause after ~7 days without database activity,
+# so this reads one skin row every 3 days.
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: '29 16 */3 * *'   # every 3 days, 16:29 UTC
+  workflow_dispatch:          # lets you run it by hand from the Actions tab
+
+permissions:
+  actions: write              # needed to re-enable this workflow (see last step)
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query the skins table
+        env:
+          # Same publishable values the site already ships in .env
+          SUPABASE_URL: https://jwkxwgccgjvcfpcousns.supabase.co
+          SUPABASE_KEY: sb_publishable_JhcBz3eqOqEPLesvHRjH8g_nvCmz638
+        run: |
+          status=$(curl -s -o response.txt -w '%{http_code}' --max-time 30 \
+            -H "apikey: $SUPABASE_KEY" \
+            "$SUPABASE_URL/rest/v1/skins?select=id&limit=1")
+          echo "HTTP $status"
+          cat response.txt; echo
+          # Fail the run (GitHub emails you) if the project is paused or erroring
+          if [ "$status" != "200" ]; then exit 1; fi
+
+      - name: Re-enable this workflow so GitHub's 60-day timer resets
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X PUT \
+            "repos/${{ github.repository }}/actions/workflows/supabase-keepalive.yml/enable"
+          echo "Workflow re-enabled; inactivity timer reset."
