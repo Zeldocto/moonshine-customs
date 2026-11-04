@@ -9,9 +9,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: write              # needed to re-enable this workflow (see last step)
+  actions: write
   contents: read
 
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
       - name: Write a heartbeat row
         env:
           SUPABASE_URL: https://jwkxwgccgjvcfpcousns.supabase.co
